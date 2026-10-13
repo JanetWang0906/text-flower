@@ -1,0 +1,27 @@
+/* Shared controls: both entries use this Chrome 61 compatible layout. */
+.toolbar { display: block; margin-top: 16px; }
+.toolbar .actions { display: flex; align-items: stretch; gap: 0; }
+.toolbar .action-pair { display: flex; flex: 1; min-width: 0; }
+.toolbar .action-pair + .action-pair { margin-left: 12px; }
+.toolbar .actions .primary { flex: 1; min-width: 0; min-height: 44px; margin: 0; font-size: 13px; gap: 0; }
+.toolbar .actions .primary span { white-space: nowrap; }
+.toolbar .actions .primary span:first-child { margin-right: 6px; }
+.toolbar #bloom { border: 1px solid var(--line); background: var(--paper); color: var(--ink); }
+.toolbar #bloom:hover { border-color: var(--rose); }
+.toolbar #intro-speed, .toolbar #speed { flex: none; width: 48px; margin: 0 0 0 5px; padding: 0; border: 1px solid var(--line); border-radius: 3px; background: transparent; font-size: 13px; }
+.toolbar-options { display: flex; align-items: center; margin-top: 10px; }
+.toolbar #edit-toggle { min-height: 44px; padding: 0 14px; border: 1px solid var(--line); border-radius: 3px; background: transparent; font-size: 12px; margin: 0; white-space: nowrap; }
+.toolbar #edit-toggle[aria-expanded="true"], .toolbar #edit-toggle:hover { background: var(--paper); }
+.toolbar .reset { flex: none; width: 44px; min-height: 44px; margin-left: 8px; font-size: 24px; }
+.toolbar .mode-setting { flex: 1; min-width: 0; max-width: 220px; margin: 0 0 0 auto; padding-left: 12px; }
+.toolbar .mode-setting .segmented span { padding: 12px 5px; font-size: 11px; white-space: nowrap; }
+#save-image { flex: none; min-height: 34px; padding: 0 12px; border: 1px solid var(--line); border-radius: 3px; background: transparent; font-size: 12px; white-space: nowrap; }
+#save-image:hover { background: var(--paper); }
+#save-image[hidden] { display: none; }
+@media (max-width: 370px) {
+  .toolbar .action-pair + .action-pair { margin-left: 8px; }
+  .toolbar #edit-toggle { padding: 0 9px; font-size: 11px; }
+  .toolbar .reset { width: 40px; margin-left: 5px; }
+  .toolbar .mode-setting { padding-left: 8px; }
+  .wordmark span { display: none; }
+}

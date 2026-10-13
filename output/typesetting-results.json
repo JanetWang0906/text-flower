@@ -1,0 +1,54 @@
+{
+  "passed": true,
+  "results": [
+    {
+      "name": "150 multiline",
+      "rose": 12,
+      "paragraph": 32,
+      "originals": 135,
+      "joinSamples": 266,
+      "maxGapRatio": 0.99999867263067
+    },
+    {
+      "name": "200 large",
+      "rose": 32,
+      "paragraph": 36,
+      "originals": 200,
+      "joinSamples": 430,
+      "maxGapRatio": 0.9999985819891735
+    },
+    {
+      "name": "200 emoji",
+      "rose": 32,
+      "paragraph": 36,
+      "originals": 200,
+      "joinSamples": 430,
+      "maxGapRatio": 0.9999985819891735
+    },
+    {
+      "name": "many explicit lines",
+      "rose": 20,
+      "paragraph": 5,
+      "originals": 100,
+      "joinSamples": 234,
+      "maxGapRatio": 0.999999399906737
+    },
+    {
+      "name": "small paragraph",
+      "rose": 32,
+      "paragraph": 12,
+      "originals": 80,
+      "joinSamples": 218,
+      "maxGapRatio": 0.9999970212968827
+    }
+  ],
+  "checks": [
+    "current draft used by sliders",
+    "independent sizes",
+    "rewrap on paragraph size change",
+    "complete preview preserved",
+    "intro and clock removed",
+    "mobile prompt"
+  ],
+  "realDeviceTested": false
+}

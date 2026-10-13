@@ -1,0 +1,54 @@
+{
+  "checks": [
+    "Dynamic lower and upper limits at 12, 20 and 32",
+    "Short drag restores original physics snapshot",
+    "Real drag releases adjacent nodes and changes both axes",
+    "Hand target is followed within 12 logical pixels after settling",
+    "Release continues the same chain",
+    "Pause freezes nodes and theme changes preserve them",
+    "Custom palette remembered",
+    "All characters become exactly one original paragraph",
+    "Touch drag actually captures and moves the rope",
+    "Touch cancellation restores the initial chain",
+    "Auto-fit searches nearest feasible rose size",
+    "Invalid draft preserves valid artwork and gives minimum guidance",
+    "Mobile controls have no horizontal overflow",
+    "No runtime errors"
+  ],
+  "ranges": {
+    "results": [
+      {
+        "size": 12,
+        "n": 372,
+        "count": 372
+      },
+      {
+        "size": 12,
+        "n": 488,
+        "count": 488
+      },
+      {
+        "size": 20,
+        "n": 223,
+        "count": 223
+      },
+      {
+        "size": 20,
+        "n": 293,
+        "count": 293
+      },
+      {
+        "size": 32,
+        "n": 140,
+        "count": 140
+      },
+      {
+        "size": 32,
+        "n": 183,
+        "count": 183
+      }
+    ]
+  },
+  "errors": [],
+  "realPhone": false
+}

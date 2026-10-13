@@ -1,0 +1,74 @@
+[
+  {
+    "name": "12 lower",
+    "count": 372,
+    "size": 12,
+    "letter": 27,
+    "duration": 26.533333333332468,
+    "errorFrames": 0,
+    "maxError": 2.4117720859527055e-14,
+    "stepP95": 1,
+    "beganOrder": true,
+    "issues": []
+  },
+  {
+    "name": "12 upper",
+    "count": 488,
+    "size": 12,
+    "letter": 23,
+    "duration": 26.533333333332468,
+    "errorFrames": 0,
+    "maxError": 2.4117720859527055e-14,
+    "stepP95": 1,
+    "beganOrder": true,
+    "issues": []
+  },
+  {
+    "name": "32 lower",
+    "count": 140,
+    "size": 32,
+    "letter": 43,
+    "duration": 26.533333333332468,
+    "errorFrames": 0,
+    "maxError": 2.4117720859527055e-14,
+    "stepP95": 1,
+    "beganOrder": true,
+    "issues": []
+  },
+  {
+    "name": "32 upper",
+    "count": 183,
+    "size": 32,
+    "letter": 37,
+    "duration": 26.533333333332468,
+    "errorFrames": 0,
+    "maxError": 2.4117720859527055e-14,
+    "stepP95": 1,
+    "beganOrder": true,
+    "issues": []
+  },
+  {
+    "name": "mixed",
+    "count": 384,
+    "size": 20,
+    "letter": 30,
+    "duration": 26.533333333332468,
+    "errorFrames": 0,
+    "maxError": 2.4117720859527055e-14,
+    "stepP95": 1,
+    "beganOrder": true,
+    "issues": []
+  },
+  {
+    "name": "multiline",
+    "count": 276,
+    "size": 20,
+    "letter": 21,
+    "duration": 26.533333333332468,
+    "errorFrames": 0,
+    "maxError": 2.4117720859527055e-14,
+    "stepP95": 1,
+    "beganOrder": true,
+    "issues": []
+  }
+]

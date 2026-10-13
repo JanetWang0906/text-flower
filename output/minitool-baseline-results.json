@@ -1,0 +1,13 @@
+{
+  "baseline": "backups/minitool-original-20260928/",
+  "originalUI": true,
+  "originalCSS": true,
+  "originalSolver": true,
+  "nativeAlbumFlowRetained": true,
+  "isolatedBuild": true,
+  "roseFramesCompared": 6,
+  "roseExactMatch": true,
+  "webUntouched": true,
+  "packed": false,
+  "realDevice": false
+}

@@ -1,0 +1,275 @@
+{
+  "initial": {
+    "status": "idle",
+    "count": 271,
+    "range": {
+      "min": 223,
+      "max": 293
+    },
+    "length": 6018.062923938534,
+    "error": ""
+  },
+  "results": [
+    {
+      "sec": 0,
+      "phase": "rope",
+      "front": 6,
+      "n": 861,
+      "maxError": 0,
+      "errorFrames": 0,
+      "cost": 0,
+      "bounds": 0
+    },
+    {
+      "sec": 1,
+      "phase": "rope",
+      "front": 46,
+      "n": 861,
+      "maxError": 1.6373767361644627e-14,
+      "errorFrames": 0,
+      "cost": 10,
+      "bounds": 0
+    },
+    {
+      "sec": 2,
+      "phase": "rope",
+      "front": 85,
+      "n": 861,
+      "maxError": 1.7135074665781262e-14,
+      "errorFrames": 0,
+      "cost": 16,
+      "bounds": 0
+    },
+    {
+      "sec": 3,
+      "phase": "rope",
+      "front": 123,
+      "n": 861,
+      "maxError": 1.7516080947797438e-14,
+      "errorFrames": 0,
+      "cost": 18,
+      "bounds": 0
+    },
+    {
+      "sec": 4,
+      "phase": "rope",
+      "front": 171,
+      "n": 861,
+      "maxError": 1.802382126581364e-14,
+      "errorFrames": 0,
+      "cost": 25,
+      "bounds": 0
+    },
+    {
+      "sec": 5,
+      "phase": "rope",
+      "front": 206,
+      "n": 861,
+      "maxError": 1.8534824047734242e-14,
+      "errorFrames": 0,
+      "cost": 31,
+      "bounds": 0
+    },
+    {
+      "sec": 6,
+      "phase": "rope",
+      "front": 246,
+      "n": 861,
+      "maxError": 1.898689292694727e-14,
+      "errorFrames": 0,
+      "cost": 37,
+      "bounds": 0
+    },
+    {
+      "sec": 7,
+      "phase": "rope",
+      "front": 296,
+      "n": 861,
+      "maxError": 1.898689292694727e-14,
+      "errorFrames": 0,
+      "cost": 46,
+      "bounds": 0
+    },
+    {
+      "sec": 8,
+      "phase": "rope",
+      "front": 338,
+      "n": 861,
+      "maxError": 1.898689292694727e-14,
+      "errorFrames": 0,
+      "cost": 53,
+      "bounds": 0
+    },
+    {
+      "sec": 9,
+      "phase": "rope",
+      "front": 373,
+      "n": 861,
+      "maxError": 1.898689292694727e-14,
+      "errorFrames": 0,
+      "cost": 59,
+      "bounds": 0
+    },
+    {
+      "sec": 10,
+      "phase": "rope",
+      "front": 411,
+      "n": 861,
+      "maxError": 1.898689292694727e-14,
+      "errorFrames": 0,
+      "cost": 65,
+      "bounds": 0
+    },
+    {
+      "sec": 11,
+      "phase": "rope",
+      "front": 459,
+      "n": 861,
+      "maxError": 1.898689292694727e-14,
+      "errorFrames": 0,
+      "cost": 73,
+      "bounds": 0
+    },
+    {
+      "sec": 12,
+      "phase": "rope",
+      "front": 488,
+      "n": 861,
+      "maxError": 1.898689292694727e-14,
+      "errorFrames": 0,
+      "cost": 79,
+      "bounds": 0
+    },
+    {
+      "sec": 13,
+      "phase": "rope",
+      "front": 531,
+      "n": 861,
+      "maxError": 1.898689292694727e-14,
+      "errorFrames": 0,
+      "cost": 84,
+      "bounds": 0
+    },
+    {
+      "sec": 14,
+      "phase": "rope",
+      "front": 573,
+      "n": 861,
+      "maxError": 1.898689292694727e-14,
+      "errorFrames": 0,
+      "cost": 89,
+      "bounds": 0
+    },
+    {
+      "sec": 15,
+      "phase": "rope",
+      "front": 606,
+      "n": 861,
+      "maxError": 1.898689292694727e-14,
+      "errorFrames": 0,
+      "cost": 97,
+      "bounds": 0
+    },
+    {
+      "sec": 16,
+      "phase": "rope",
+      "front": 655,
+      "n": 861,
+      "maxError": 1.898689292694727e-14,
+      "errorFrames": 0,
+      "cost": 105,
+      "bounds": 0
+    },
+    {
+      "sec": 17,
+      "phase": "rope",
+      "front": 692,
+      "n": 861,
+      "maxError": 1.898689292694727e-14,
+      "errorFrames": 0,
+      "cost": 112,
+      "bounds": 0
+    },
+    {
+      "sec": 18,
+      "phase": "rope",
+      "front": 731,
+      "n": 861,
+      "maxError": 1.898689292694727e-14,
+      "errorFrames": 0,
+      "cost": 120,
+      "bounds": 0
+    },
+    {
+      "sec": 19,
+      "phase": "rope",
+      "front": 772,
+      "n": 861,
+      "maxError": 2.0349326975225954e-14,
+      "errorFrames": 0,
+      "cost": 125,
+      "bounds": 0
+    },
+    {
+      "sec": 20,
+      "phase": "rope",
+      "front": 814,
+      "n": 861,
+      "maxError": 2.0349326975225954e-14,
+      "errorFrames": 0,
+      "cost": 133,
+      "bounds": 0
+    },
+    {
+      "sec": 21,
+      "phase": "settle",
+      "front": 861,
+      "n": 861,
+      "maxError": 2.4117720859527055e-14,
+      "errorFrames": 0,
+      "cost": 144,
+      "bounds": 0
+    },
+    {
+      "sec": 22,
+      "phase": "order",
+      "front": 861,
+      "n": 861,
+      "maxError": 2.4117720859527055e-14,
+      "errorFrames": 0,
+      "cost": 81,
+      "bounds": 0
+    },
+    {
+      "sec": 23,
+      "phase": "order",
+      "front": 861,
+      "n": 861,
+      "maxError": 2.4117720859527055e-14,
+      "errorFrames": 0,
+      "cost": 1,
+      "bounds": 0
+    },
+    {
+      "sec": 24,
+      "phase": "scale",
+      "front": 861,
+      "n": 861,
+      "maxError": 2.4117720859527055e-14,
+      "errorFrames": 0,
+      "cost": 1,
+      "bounds": 0
+    },
+    {
+      "sec": 25,
+      "phase": "complete",
+      "front": 861,
+      "n": 861,
+      "maxError": 2.4117720859527055e-14,
+      "errorFrames": 0,
+      "cost": 1,
+      "bounds": 0
+    }
+  ],
+  "errors": []
+}

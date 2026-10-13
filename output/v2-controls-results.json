@@ -1,0 +1,48 @@
+[
+  {
+    "target": "web",
+    "introProgress": 0.7166666666666666,
+    "guide": {
+      "position": {
+        "x": 55,
+        "y": 610
+      },
+      "center": {
+        "x": 70.18333333333334,
+        "y": 443.1666666666667
+      },
+      "overlaps": 0
+    },
+    "widths": [
+      320,
+      390,
+      501,
+      1280
+    ],
+    "errors": [],
+    "realDevice": false
+  },
+  {
+    "target": "minitool",
+    "introProgress": 0.7166666666666666,
+    "guide": {
+      "position": {
+        "x": 55,
+        "y": 740
+      },
+      "center": {
+        "x": 67.08111111111111,
+        "y": 539.1166666666667
+      },
+      "overlaps": 0
+    },
+    "widths": [
+      320,
+      390,
+      501,
+      1280
+    ],
+    "errors": [],
+    "realDevice": false
+  }
+]

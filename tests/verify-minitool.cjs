@@ -1,0 +1,26 @@
+const assert=require('node:assert/strict');
+const {chromium}=require('playwright');
+(async()=>{const browser=await chromium.launch({executablePath:'/Applications/Google Chrome.app/Contents/MacOS/Google Chrome',headless:true});
+try{
+ const p=await browser.newPage({viewport:{width:390,height:844}});await p.clock.install();
+ const errors=[];p.on('pageerror',e=>errors.push(e.message));
+ await p.goto('http://127.0.0.1:8765/minitool/index.html');
+ await p.waitForFunction(()=>window.studio&&window.studio.ready);
+ await p.evaluate(()=>studio.ready);
+ const st=await p.evaluate(()=>({mode:studio.paletteMode,paths:studio.paths.length,saveHidden:document.getElementById('save-image').hidden,bg:studio.background.current.name}));
+ console.log('studio state',JSON.stringify(st));
+ assert.ok(st.paths===2,'inline SVG paths loaded');
+ assert.equal(st.mode,'light');
+ assert.equal(st.saveHidden,false,'无 xhs SDK 时仍显示高清保存按钮');
+ assert.equal(st.bg,'IMG_0006.jpg');
+ await p.click('[data-background="IMG_0045.JPG"]');
+ await p.waitForFunction(()=>document.querySelector('[data-background="IMG_0045.JPG"]').getAttribute('aria-pressed')==='true');
+ assert.equal(await p.evaluate(()=>studio.paletteMode),'dark');
+ const r=await p.evaluate(()=>{studio.reset();studio.start();for(let i=0;i<120*70&&studio.status!=='complete';i++)studio.tick(1/120);studio.draw();return{status:studio.status,error:studio.motion.maxError,saveHidden:document.getElementById('save-image').hidden}});
+ console.log('animation',JSON.stringify(r));
+ assert.equal(r.status,'complete');assert.ok(r.error<.1);
+ assert.equal(r.saveHidden,false);
+ assert.deepEqual(errors,[]);
+ await p.locator('#canvas').screenshot({path:'output/minitool-final.png'});
+ console.log('MINITOOL VERIFY PASS');
+}catch(e){console.error(e);process.exitCode=1}finally{await browser.close()}})();

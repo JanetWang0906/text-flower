@@ -1,0 +1,84 @@
+[
+  {
+    "target": "web",
+    "finish": {
+      "status": "complete",
+      "activated": [
+        4.483333333333346,
+        6.6416666666667865,
+        9.100000000000124,
+        16.34166666666638
+      ],
+      "landed": true,
+      "badColor": false,
+      "error": 0.022368093945839128,
+      "finalPositions": true
+    },
+    "sizes": [
+      {
+        "size": 12,
+        "applied": true,
+        "status": "complete",
+        "error": 0.025361776165769904,
+        "sources": 334,
+        "glyphs": 334
+      },
+      {
+        "size": 32,
+        "applied": true,
+        "status": "complete",
+        "error": 0.01662785650432569,
+        "sources": 125,
+        "glyphs": 125
+      }
+    ],
+    "runtimeErrors": [],
+    "viewportWidths": [
+      320,
+      390,
+      1280
+    ],
+    "realDevice": false
+  },
+  {
+    "target": "minitool",
+    "finish": {
+      "status": "complete",
+      "activated": [
+        4.550000000000016,
+        6.6750000000001215,
+        9.133333333333455,
+        16.374999999999712
+      ],
+      "landed": true,
+      "badColor": false,
+      "error": 0.029518605752398806,
+      "finalPositions": true
+    },
+    "sizes": [
+      {
+        "size": 12,
+        "applied": true,
+        "status": "complete",
+        "error": 0.025361776165769904,
+        "sources": 334,
+        "glyphs": 334
+      },
+      {
+        "size": 32,
+        "applied": true,
+        "status": "complete",
+        "error": 0.01662785650432569,
+        "sources": 125,
+        "glyphs": 125
+      }
+    ],
+    "runtimeErrors": [],
+    "viewportWidths": [
+      320,
+      390,
+      1280
+    ],
+    "realDevice": false
+  }
+]

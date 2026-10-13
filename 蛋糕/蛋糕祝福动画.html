@@ -1,0 +1,415 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+<meta charset="utf-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1,user-scalable=no"/>
+<title>生日蛋糕 · 祝福文字动画</title>
+<script src="https://cdn.jsdelivr.net/npm/p5@1.9.4/lib/p5.min.js"></script>
+<style>
+  html,body{margin:0;padding:0;height:100%;background:#0a0c1c;display:flex;align-items:center;justify-content:center;overflow:hidden}
+  canvas{max-width:100vw;max-height:100vh;touch-action:none}
+</style>
+</head>
+<body>
+<!-- 隐藏 SVG：仅用于浏览器原生路径几何采样（getPointAtLength） -->
+<svg id="src" width="10" height="10" style="position:absolute;left:-9999px;top:-9999px">
+  <path id="p-tray" d="M134.01,821.25c-73.1,25.99-127.89,48.14-127,87,.38,95.93,304.57,136.17,574,133,240.41-2.83,519.84-44.05,523-128-.19-42.67-53.75-60.26-126-86"/>
+  <path id="p-body" d="M160.01,704.25c-1.27,50.25-.93,101.03-1,142-.74,24.66-.83,38.27,2,62,13.47,16.43-1.45,71.52,415,74,158.42-4.22,219.34-16.55,308-36,18.2-3.99,50.45-18.39,62-39,7.76-23.96.72-42.71,2-70,.97-39.93,1.59-82.05,1-131"/>
+  <path id="p-cream" d="M150.01,503.25c-3.47,24.08-5.47,48.07-6,72-1.3,58.83,2.76,96.65,18,101,6.97,1.99,31.32-3.85,43-32,12.27-29.58,26.79-33.59,38-32,16.02,2.28,24.42,35.23,27,48,2.28,11.27.78,34.22,9,52,7.5,16.22,24.36,36.29,44,36,10.03-.15,26.78-10.11,43-36,10.47-16.71,14.39-43.2,32-59,15.01-13.47,37.36-20.01,58-16,30.88,6,47.4,21.43,54,49,4.76,30,1.03,39.98,5,75,1.74,34.36,12.17,53.82,44,55,21.16,1.85,38.57-9.13,48-42,5.04-26.48,3.99-52.66,11-86,8.85-29.52,34.78-63.4,67-65,25.32-1.25,48.55,6.15,63,39,8.67,25.61,7.21,40.38,23,54,13.13,11.32,34.07,13.64,50,7,13.71-5.71,24.91-18.94,32-42,3.91-12.73,2.52-27.3,10-43,7.78-16.33,16.22-23.93,25-25,9.91-1.21,28.15,3.92,35,25,6.02,18.54,8.25,37.57,22,39,8.69.9,20.28-10.54,21-46,1.72-59.4,2.75-126.85-13-140-14.02-25.5-39.56-34.31-57-41-67.44-25.87-195.94-43.94-338-45-80.79-.6-189.4,8.24-272,25-73.14,14.84-115.06,33.8-117,53-3.08,30.45,35.28,48.8,116,61,107.95,16.32,197,26.09,279,23,194.88-7.34,290.12-15.58,366-58"/>
+  <path id="p-candle" d="M507.54,348c.2-27.15,1.19-62.38,1-80-.07-6.62-.48-21.02,9-30,8-7.57,6.4-3.04,29-9,14.53-4.87,24.6-12.44,40-29,14.23-15.3,23.99-22.33,30-54-.05-58.93-46.82-129.11-60-139-6.91,2.12-6.28,22.99-13,38-9.34,20.86-23.75,32.21-35,50-13.04,20.63-17.63,35.33-17,50,.74,17.06,6.41,29.87,16,38,11.29,9.57,29.95,14.87,46,7,6.19-3.03,17.56-10.83,20-25,1.57-9.13-.53-21.99-7-24-6.67-2.08-16.98,7.67-20,18-5.12,17.53,11.21,37.21,20,46,7.89,7.89,19.79,12.81,28,25,6.9,10.25,10.13,23.1,10,36-.19,18.3-8.46,35.27-20,48-9.64,10.64-21.07,15.09-35,24-16.84,10.77-28.66,21.79-34,31-3.76,6.48-8.2,20.96-10,37-.66,16.62-.01,40.18,1,53-.24,8.7-.87,19.01,6,27,5.76,6.7,15.75,7.91,32,10,11.83,1.52,20.6,2.65,30,1,14.45-2.54,23.8-8.89,27-13,9.31-11.98,6-50,6-50,0,0,.29-65.7-1-70-4.93-3.11-21.47,9.32-34,20-8.88,5.86-14.89,13.29-23,23-5.53,6.61-9.83,14-13,22"/>
+</svg>
+
+<script>
+"use strict";
+/* ================= 常量 ================= */
+const W = 720, H = 960, FLOOR = H - 42;
+const FONT = 16, SP = FONT * 0.95, RAD = FONT * 0.47;   // 字号 / 绳段静息长度 / 碰撞半径
+const LIGHT = [216, 210, 234];                            // 正文浅色
+const GRAV = 0.42, DAMP = 0.992, ITER = 5;                // Verlet 参数
+const AUTO_SPEED = 640;                                   // 自动滑出速度 px/s
+const SEGS = [                                            // 绳序：托盘→蛋糕体→奶油→蜡烛（配色取自 SVG）
+  { id: 'p-tray',   col: [157, 189, 228] },   // #9dbde4
+  { id: 'p-body',   col: [199, 187, 219] },   // #c7bbdb
+  { id: 'p-cream',  col: [241, 156, 168] },   // #f19ca8
+  { id: 'p-candle', col: [250, 198, 114] },   // #fac672
+];
+const BLESSING = "亲爱的你，生日快乐。愿你的每一次努力都被温柔以待，愿你的每一个愿望都落地生根。新的一岁，愿烦恼像烛光轻轻一吹就散去，愿快乐像奶油一样绵密悠长，愿勇气像蜡烛的火苗一样明亮挺立。祝你眼里有光，心中有海，脚下有路；祝你被爱包围，被梦召唤，被时间温柔托住。往后的日子慢慢来，别着急，星星会替你记住愿望，晚风会把好消息捎回来。愿你敢想敢做，敢爱敢当，把平凡的日子过成闪闪发光的模样。生日快乐，年年有今日，岁岁有今朝，长长久久，平安喜乐，所求皆如愿，所行化坦途。";
+
+/* ================= 全局 ================= */
+let segs = [], totalC = 0, E = null, dirOut = null;
+let chars = [], freeList = [], nextRelease = 0, N = 0, textStr = "";
+let state = 'intro', stateT0 = 0;
+let S = 0, Sdot = 0, dragging = false, dragAcc = 0;
+let stars = [], paraCenterY = H * 0.44;
+let calmFrames = 0, zoomScale = 1;
+const INTRO_FADE = 900, FORM_START = 1700, FORM_DUR = 520;
+
+function clamp(v, a, b) { return v < a ? a : v > b ? b : v; }
+function easeIO(t) { return t < 0.5 ? 4 * t * t * t : 1 - Math.pow(-2 * t + 2, 3) / 2; }
+function lerpA(a, b, t) { const d = ((b - a + Math.PI * 3) % (Math.PI * 2)) - Math.PI; return a + d * t; }
+
+/* ================= 路径采样 ================= */
+function buildPaths() {
+  const svg = document.getElementById('src');
+  let arcSvg = 0;
+  for (const s of SEGS) {
+    const el = svg.querySelector('#' + s.id);
+    const len = el.getTotalLength();
+    const n = Math.max(4, Math.ceil(len / 2));
+    const pts = [];
+    for (let i = 0; i <= n; i++) {
+      const p = el.getPointAtLength(len * i / n);
+      pts.push([p.x, p.y]);
+    }
+    s.ptsSvg = pts; s.lenSvg = len; s.a0Svg = arcSvg; arcSvg += len;
+  }
+  // 包围盒 → 适配画布（竖版 3:4）
+  let minx = 1e9, miny = 1e9, maxx = -1e9, maxy = -1e9;
+  for (const s of SEGS) for (const p of s.ptsSvg) {
+    if (p[0] < minx) minx = p[0]; if (p[0] > maxx) maxx = p[0];
+    if (p[1] < miny) miny = p[1]; if (p[1] > maxy) maxy = p[1];
+  }
+  const sc = Math.min(W * 0.90 / (maxx - minx), H * 0.58 / (maxy - miny));
+  const ox = (W - (maxx - minx) * sc) / 2 - minx * sc;
+  const oy = 86 - miny * sc;
+  let acc = 0;
+  for (const s of SEGS) {
+    s.pts = s.ptsSvg.map(p => [p[0] * sc + ox, p[1] * sc + oy]);
+    s.lenC = s.lenSvg * sc;
+    s.a0C = acc; acc += s.lenC;
+  }
+  totalC = acc;
+  segs = SEGS;
+  // 出口 = 绳首（托盘起点），发射朝向 = 路径起始反切线
+  const p0 = pointAt(0), p2 = pointAt(4);
+  E = { x: p0.x, y: p0.y };
+  let dx = p0.x - p2.x, dy = p0.y - p2.y;
+  const d = Math.sqrt(dx * dx + dy * dy) || 1;
+  dirOut = { x: dx / d, y: dy / d };
+}
+
+// 画布弧长 → 点 + 切线角（保证字符可读的翻转）
+function pointAt(a) {
+  a = clamp(a, 0, totalC - 0.01);
+  let s = segs[0];
+  for (let k = segs.length - 1; k >= 0; k--) { if (a >= segs[k].a0C) { s = segs[k]; break; } }
+  const u = (a - s.a0C) / s.lenC * (s.pts.length - 1);
+  const i0 = clamp(Math.floor(u), 0, s.pts.length - 2);
+  const f = u - i0;
+  const pA = s.pts[i0], pB = s.pts[i0 + 1];
+  const x = pA[0] + (pB[0] - pA[0]) * f;
+  const y = pA[1] + (pB[1] - pA[1]) * f;
+  let ang = Math.atan2(pB[1] - pA[1], pB[0] - pA[0]);
+  if (Math.cos(ang) < 0) ang = ((ang + Math.PI + Math.PI * 3) % (Math.PI * 2)) - Math.PI;
+  return { x, y, ang };
+}
+
+/* ================= 文字与排版 ================= */
+function buildText() {
+  N = Math.floor(totalC / SP) - 1;
+  let txt = BLESSING;
+  while (txt.length < N) txt += "愿你所求皆如愿，所行化坦途，多喜乐，长安宁。";
+  textStr = txt.slice(0, N);
+  for (let i = 0; i < N; i++) {
+    const a = (i + 0.6) * SP;
+    let segIdx = 0;
+    for (let k = segs.length - 1; k >= 0; k--) { if (a >= segs[k].a0C) { segIdx = k; break; } }
+    const p = pointAt(a);
+    chars.push({
+      i, ch: textStr[i], a, segIdx, col: segs[segIdx].col,
+      mode: 'para', alpha: 0, ang: 0,
+      x: 0, y: 0, px: 0, py: 0, cr: null,
+      paraX: 0, paraY: 0, fx: 0, fy: 0, t0: 0
+    });
+  }
+}
+
+function layoutPara() {
+  textSize(FONT);
+  const maxW = W * 0.80, LH = FONT * 1.9;
+  const lines = []; let cur = "";
+  for (const ch of textStr) {
+    if (cur && textWidth(cur + ch) > maxW) { lines.push(cur); cur = ch; }
+    else cur += ch;
+  }
+  if (cur) lines.push(cur);
+  const totalH = lines.length * LH;
+  const y0 = paraCenterY - totalH / 2 + LH / 2;
+  let idx = 0;
+  for (let li = 0; li < lines.length; li++) {
+    const lw = textWidth(lines[li]);
+    let x = (W - lw) / 2;
+    for (const ch of lines[li]) {
+      const c = chars[idx];
+      c.paraX = x + textWidth(ch) / 2;
+      c.paraY = y0 + li * LH;
+      x += textWidth(ch); idx++;
+    }
+  }
+}
+
+/* ================= 星空 ================= */
+function buildStars() {
+  for (let i = 0; i < 150; i++) {
+    stars.push({
+      x: Math.random() * W, y: Math.random() * (FLOOR - 20),
+      r: 0.6 + Math.random() * 1.6,
+      ph: Math.random() * Math.PI * 2, sp: 0.5 + Math.random() * 2,
+      big: Math.random() < 0.06
+    });
+  }
+}
+
+/* ================= 生命周期 ================= */
+function setup() {
+  createCanvas(W, H);
+  pixelDensity(2);
+  textFont('"PingFang SC","Hiragino Sans GB","Microsoft YaHei",sans-serif');
+  buildPaths();
+  buildText();
+  layoutPara();
+  buildStars();
+  stateT0 = millis();
+}
+
+function setState(s) {
+  state = s; stateT0 = millis();
+  if (s === 'final') {
+    for (const c of chars) { c.fx = c.x; c.fy = c.y; c.t0 = stateT0 + c.i * 6; }
+    calmFrames = 0;
+  }
+  if (s === 'zoom') zoomScale = 1;
+}
+
+function updateIntro(now) {
+  const t = now - stateT0;
+  const STAG = 2300 / N;
+  let allOn = true;
+  for (const c of chars) {
+    const st = FORM_START + c.i * STAG;
+    c.alpha = clamp((t - 200) / INTRO_FADE, 0, 1);
+    if (t < st) { c.mode = 'para'; c.x = c.paraX; c.y = c.paraY; c.ang = 0; allOn = false; }
+    else if (t < st + FORM_DUR) {
+      c.mode = 'moving'; allOn = false;
+      const u = easeIO((t - st) / FORM_DUR);
+      const p = pointAt(c.a);
+      c.x = c.paraX + (p.x - c.paraX) * u;
+      c.y = c.paraY + (p.y - c.paraY) * u;
+      c.ang = lerpA(0, p.ang, u);
+      c.cr = [LIGHT[0] + (c.col[0] - LIGHT[0]) * u, LIGHT[1] + (c.col[1] - LIGHT[1]) * u, LIGHT[2] + (c.col[2] - LIGHT[2]) * u];
+    } else {
+      c.mode = 'on'; c.alpha = 1;
+      const p = pointAt(c.a);
+      c.x = p.x; c.y = p.y; c.ang = p.ang;
+    }
+  }
+  if (allOn && t > FORM_START + (N - 1) * (2300 / N) + FORM_DUR + 350) setState('formed');
+}
+
+function updateExpand(dt) {
+  // 游标推进：拖拽按位移量，松手/点击后自动
+  if (dragging) {
+    S += dragAcc;
+    Sdot = Sdot + (clamp(dragAcc / Math.max(dt, 0.001), 0, 1500) - Sdot) * 0.35;
+    dragAcc = 0;
+  } else {
+    Sdot += (AUTO_SPEED - Sdot) * 0.06;
+    S += Sdot * dt;
+  }
+  // 按弧长释放字符
+  while (nextRelease < N && chars[nextRelease].a <= S + SP * 0.5) {
+    const c = chars[nextRelease++];
+    const p = pointAt(Math.max(c.a - S, 0));
+    c.mode = 'free'; c.x = p.x; c.y = p.y; c.ang = p.ang;
+    const vF = Sdot / 60;
+    const vx = (Math.random() - 0.5) * 3 + dirOut.x * vF * 0.25;
+    const vy = Math.min(vF * 0.5, 6) + Math.random();
+    c.px = c.x - vx; c.py = c.y - vy;
+    freeList.push(c);
+  }
+  // 仍在路径上的字符：沿路径回滑（解链效果）
+  for (let i = nextRelease; i < N; i++) {
+    const c = chars[i];
+    const p = pointAt(c.a - S);
+    c.x = p.x; c.y = p.y; c.ang = p.ang;
+  }
+  if (freeList.length) stepPhysics();
+  // 全部释放且静止 → 进入重排
+  if (nextRelease >= N) {
+    let mx = 0;
+    for (const c of freeList) mx = Math.max(mx, Math.hypot(c.x - c.px, c.y - c.py));
+    calmFrames = mx < 0.6 ? calmFrames + 1 : 0;
+    if (calmFrames > 55) setState('final');
+  }
+}
+
+function updateFinal(now) {
+  let done = true;
+  for (const c of chars) {
+    const u = clamp((now - c.t0) / 700, 0, 1);
+    if (u < 1) done = false;
+    const e = easeIO(u);
+    c.x = c.fx + (c.paraX - c.fx) * e;
+    c.y = c.fy + (c.paraY - c.fy) * e;
+    c.ang = 0;
+  }
+  if (done) setState('zoom');
+}
+
+/* ================= Verlet 物理 ================= */
+function stepPhysics() {
+  const n = freeList.length;
+  for (const c of freeList) {
+    let vx = (c.x - c.px) * DAMP, vy = (c.y - c.py) * DAMP;
+    vx = clamp(vx, -16, 16); vy = clamp(vy, -16, 16);
+    c.px = c.x; c.py = c.y;
+    c.x += vx; c.y += vy + GRAV;
+    c.ang *= 0.85;                     // 恢复正向
+  }
+  // 空间哈希
+  const cs = RAD * 2.3, grid = new Map();
+  for (let k = 0; k < n; k++) {
+    const c = freeList[k];
+    const key = Math.floor(c.x / cs) + ',' + Math.floor(c.y / cs);
+    let arr = grid.get(key); if (!arr) { arr = []; grid.set(key, arr); }
+    arr.push(k);
+  }
+  for (let it = 0; it < ITER; it++) {
+    // 绳段定长约束（段内相连，跨段不连）
+    for (let k = 1; k < n; k++) {
+      const a = freeList[k - 1], b = freeList[k];
+      if (a.segIdx !== b.segIdx) continue;
+      const dx = b.x - a.x, dy = b.y - a.y;
+      const d = Math.sqrt(dx * dx + dy * dy) || 0.0001;
+      const diff = (d - SP) / d * 0.5;
+      a.x += dx * diff; a.y += dy * diff;
+      b.x -= dx * diff; b.y -= dy * diff;
+    }
+    // 字符间碰撞（堆出厚度）
+    for (let k = 0; k < n; k++) {
+      const c = freeList[k];
+      const gx = Math.floor(c.x / cs), gy = Math.floor(c.y / cs);
+      for (let ox = -1; ox <= 1; ox++) for (let oy = -1; oy <= 1; oy++) {
+        const arr = grid.get((gx + ox) + ',' + (gy + oy)); if (!arr) continue;
+        for (const j of arr) {
+          if (j <= k) continue;
+          const o = freeList[j];
+          const dx = o.x - c.x, dy = o.y - c.y;
+          const d2 = dx * dx + dy * dy, min = RAD * 2;
+          if (d2 < min * min && d2 > 0.0001) {
+            const d = Math.sqrt(d2), push = (min - d) / d * 0.3;
+            c.x -= dx * push; c.y -= dy * push;
+            o.x += dx * push; o.y += dy * push;
+          }
+        }
+      }
+    }
+    // 地面摩擦 + 边界
+    for (const c of freeList) {
+      if (c.y > FLOOR) { c.y = FLOOR; c.px += (c.x - c.px) * 0.18; }
+      if (c.x < 12) { c.x = 12; c.px = c.x; }
+      if (c.x > W - 12) { c.x = W - 12; c.px = c.x; }
+    }
+  }
+}
+
+/* ================= 交互 ================= */
+function handlePos() {
+  if (freeList.length) return { x: freeList[0].x, y: freeList[0].y };
+  return E;
+}
+function pressLogic(mx, my) {
+  if (state !== 'formed') return;
+  const hp = handlePos();
+  if (Math.hypot(mx - hp.x, my - hp.y) < 70) { dragging = true; dragAcc = 0; Sdot = 0; }
+  else setState('expanding');
+}
+function mousePressed() { pressLogic(mouseX, mouseY); }
+function mouseDragged() { if (dragging) dragAcc += Math.hypot(mouseX - pmouseX, mouseY - pmouseY); }
+function mouseReleased() {
+  if (dragging) { dragging = false; Sdot = Math.max(Sdot, 480); }  // 松手后剩余文字继续滑出
+}
+function touchStarted() { pressLogic(touchX, touchY); return false; }
+function touchMoved() { if (dragging) dragAcc += Math.hypot(touchX - ptouchX, touchY - ptouchY); return false; }
+function touchEnded() { mouseReleased(); return false; }
+
+/* ================= 绘制 ================= */
+function draw() {
+  const now = millis();
+  const dt = Math.min(deltaTime, 50) / 1000;
+  background(10, 12, 28);
+  drawStars(now);
+  drawGround();
+
+  if (state === 'intro') updateIntro(now);
+  else if (state === 'expanding') updateExpand(dt);
+  else if (state === 'final') updateFinal(now);
+  else if (state === 'zoom') zoomScale = 1 + 0.32 * easeIO(clamp((now - stateT0) / 9000, 0, 1));
+
+  drawChars();
+  drawHandle(now);
+  drawHints(now);
+}
+
+function drawStars(now) {
+  noStroke();
+  for (const s of stars) {
+    const a = 110 + 110 * Math.sin(now / 1000 * s.sp + s.ph);
+    fill(228, 234, 255, a);
+    if (s.big) {
+      push(); translate(s.x, s.y);
+      rectMode(CENTER);
+      rect(0, 0, s.r * 6, s.r * 1.2);
+      rect(0, 0, s.r * 1.2, s.r * 6);
+      pop();
+    } else circle(s.x, s.y, s.r * 2);
+  }
+}
+
+function drawGround() {
+  stroke(120, 132, 185, 55);
+  strokeWeight(1);
+  line(24, FLOOR + 9, W - 24, FLOOR + 9);
+  noStroke();
+}
+
+function drawChars() {
+  push();
+  if (state === 'zoom') {
+    translate(W / 2, paraCenterY); scale(zoomScale); translate(-W / 2, -paraCenterY);
+  }
+  textAlign(CENTER, CENTER); textSize(FONT); noStroke();
+  for (const c of chars) {
+    let col;
+    if (c.mode === 'on') col = c.col;
+    else if (c.mode === 'moving') col = c.cr;
+    else col = LIGHT;
+    fill(col[0], col[1], col[2], 255 * (c.alpha === undefined ? 1 : c.alpha));
+    push(); translate(c.x, c.y); rotate(c.ang); text(c.ch, 0, 0); pop();
+  }
+  pop();
+}
+
+function drawHandle(now) {
+  if (state !== 'formed' && !(state === 'expanding' && S < totalC * 0.6)) return;
+  const hp = handlePos();
+  const r = 10 + 2.5 * Math.sin(now / 260);
+  noFill();
+  stroke(216, 210, 234, 190);
+  strokeWeight(1.6);
+  circle(hp.x, hp.y, r * 2);
+  fill(216, 210, 234, 220);
+  noStroke();
+  circle(hp.x, hp.y, 4);
+}
+
+function drawHints(now) {
+  if (state !== 'formed') return;
+  const a = 150 + 70 * Math.sin(now / 500);
+  fill(216, 210, 234, a);
+  textAlign(CENTER, CENTER); textSize(14);
+  text("点击画面展开 · 或拖动托盘左端的端点 ✦", W / 2, H - 66);
+}
+</script>
+</body>
+</html>

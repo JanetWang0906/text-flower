@@ -1,0 +1,40 @@
+{
+  "audit": [
+    {
+      "name": "default",
+      "duration": 15,
+      "firstExit": 0.11666666666666667,
+      "maxJump": 22.385907003630653,
+      "issues": {}
+    },
+    {
+      "name": "long",
+      "duration": 25.11947629343186,
+      "firstExit": 0.16666666666666666,
+      "maxJump": 28.476354912185844,
+      "issues": {}
+    },
+    {
+      "name": "poem",
+      "duration": 21.295849935061877,
+      "firstExit": 0.16666666666666666,
+      "maxJump": 28.191140078513772,
+      "issues": {}
+    },
+    {
+      "name": "unicode",
+      "duration": 15,
+      "firstExit": 0.05,
+      "maxJump": 12.185845641950715,
+      "issues": {}
+    },
+    {
+      "name": "single",
+      "duration": 15,
+      "firstExit": 0.65,
+      "maxJump": 2.6307559758588117,
+      "issues": {}
+    }
+  ],
+  "errors": []
+}

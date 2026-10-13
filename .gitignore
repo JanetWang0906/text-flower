@@ -1,0 +1,38 @@
+# Local environment variables and credentials
+.env
+.env.*
+!.env.example
+.envrc
+*.pem
+*.key
+*.p12
+*.pfx
+*.keystore
+credentials.json
+secrets.json
+
+# Dependencies and caches
+node_modules/
+__pycache__/
+*.py[cod]
+.cache/
+coverage/
+playwright-report/
+test-results/
+
+# Local development notes and editor state
+.workbuddy/
+.impeccable/
+.idea/
+.vscode/
+*.swp
+*.swo
+*.log
+.DS_Store
+._*
+Thumbs.db
+
+# Reproducible packages, screenshots and recordings
+*.zip
+/output/*
+!/output/*.json

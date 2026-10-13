@@ -1,0 +1,69 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#F8F5EF">
+  <title>字里花间 · 一朵玫瑰，藏着一封信</title>
+  <link rel="stylesheet" href="./style.css?v=web-desktop-20261009">
+  <link rel="stylesheet" href="./toolbar.css?v=2.0-20261006">
+</head>
+<body>
+  <main class="studio">
+    <header class="masthead"><a class="wordmark" href="./">字里花间<span>TEXT IN BLOOM</span></a></header>
+    <section class="workspace" aria-label="文字玫瑰预览">
+      <div class="paper-wrap">
+        <canvas id="canvas" width="900" height="1200" tabindex="0" aria-label="文字玫瑰动画。拖动枝叶上端标记，可向不同方向牵引文字绳，松手后沿路径滑出并自然下落，全部落地后整理成信。"></canvas>
+        <div id="loading" class="loading" role="status">正在展开信纸…</div>
+      </div>
+      <footer class="stage-footer"><span id="stage-label" role="status">一朵玫瑰，藏着一封信</span></footer>
+
+    </section>
+    <aside class="controls" aria-label="文字与动画设置">
+      <div class="control-heading">
+        <fieldset class="shape-setting"><legend>文字造型</legend><div class="segmented"><label><input name="shape" type="radio" value="rose" checked disabled><span>玫瑰</span></label><label><input name="shape" type="radio" value="cake" disabled><span>蛋糕</span></label></div></fieldset>
+        <button id="save-image" class="secondary" type="button" disabled aria-live="polite">保存图片</button>
+      </div>
+      <div class="toolbar">      <!-- shared-controls:start -->
+        <div class="actions">
+          <div class="action-pair" role="group" aria-label="生成造型与速度"><button id="bloom" class="primary" type="button" disabled><span aria-hidden="true">✿</span><span>生花</span></button><button id="intro-speed" type="button" aria-label="生花速度 1 倍，点击切换" title="切换生花速度">1×</button></div>
+          <div class="action-pair" role="group" aria-label="展开信件与速度"><button id="play" class="primary" type="button" disabled><span id="play-icon" aria-hidden="true">▷</span><span id="play-label">展开</span></button><button id="speed" type="button" aria-label="展开速度 2 倍，点击切换" title="切换展开速度">2×</button></div>
+        </div>
+        <div class="toolbar-options"><button id="edit-toggle" type="button" aria-expanded="false" aria-controls="text-form">编辑文字</button><button id="reset" class="reset" type="button" disabled aria-label="回到玫瑰" title="回到玫瑰">↺</button><fieldset class="mode-setting"><legend class="sr-only">打开这封信</legend><div class="segmented"><label><input name="mode" type="radio" value="auto" checked><span>自动播放</span></label><label><input name="mode" type="radio" value="manual"><span>亲手牵引</span></label></div></fieldset></div>
+        <!-- shared-controls:end -->
+</div>
+<p id="mode-hint">点击播放，或从枝叶上端轻轻向下拉。</p>
+      <form id="text-form" novalidate hidden>
+        <div class="label-row"><label for="message">写给你的文字</label><span id="count">0 / 200</span></div>
+        <textarea id="message" rows="5" spellcheck="false" aria-describedby="input-error">把那些来不及说出口的话，写成一朵玫瑰。愿你在平凡的日子里，也能遇见温柔的风、明亮的月光，和不期而遇的欢喜。
+清晨推开窗，让阳光落在书页上；傍晚走过熟悉的小路，听树叶轻轻说话。那些微小却珍贵的时刻，因为有人愿意分享，便有了不同的颜色。
+我想把春天的第一阵暖风、夏夜的星光、秋日的落叶和冬天的一杯热茶，都慢慢写进这封信里。不必急着赶路，也不用时时勇敢；累的时候就停下来，让自己安静一会儿。
+愿你记得，生活不是只有抵达才值得庆祝。今天认真吃过的一顿饭，抬头看见的一片云，和一次发自心底的微笑，都是真实而明亮的收获。愿这些字句像一朵花，陪你度过寻常的一天。</textarea>
+        <div class="input-footer"><span id="edit-hint">按字宽铺满玫瑰，每个字只出现一次</span><button class="text-button" type="submit">应用文字 <span aria-hidden="true">↗</span></button></div>
+        <p id="input-error" class="error" role="alert"></p>
+      </form>
+      <div class="appearance">
+      <div class="setting font-setting"><div class="label-row"><label for="font-size">玫瑰字号</label><output id="font-value" for="font-size">20</output></div><input id="font-size" type="range" min="12" max="32" step="1" value="20"><div class="range-labels"><span>细密 · 12</span><span>舒展 · 32</span></div></div>
+      <div class="setting paragraph-setting"><div class="label-row"><label for="paragraph-size">段落字号</label><output id="paragraph-value" for="paragraph-size">28</output></div><input id="paragraph-size" type="range" min="12" max="48" step="1" value="28"><div class="range-labels"><span id="paragraph-min">细腻 · 12</span><span>醒目 · 48</span></div></div>
+      <fieldset class="color-setting"><legend>花与叶的颜色</legend><div class="color-row"><label class="color-control"><input id="flower-color" type="color" value="#d35159"><span>花朵</span><output id="flower-hex">#D35159</output></label><label class="color-control"><input id="leaf-color" type="color" value="#4b8b3d"><span>枝叶</span><output id="leaf-hex">#4B8B3D</output></label></div></fieldset>
+      </div>
+      <div class="fit-row"><button id="auto-fit" class="text-button" type="button">自动适配字号</button><span id="fit-note" role="status"></span></div>
+      <fieldset class="palette-setting"><legend>画布配色</legend><div class="palette-row"><div class="segmented"><label><input name="palette" type="radio" value="light" checked><span>浅色背景</span></label><label><input name="palette" type="radio" value="dark"><span>深色背景</span></label></div><label class="color-control"><input id="paragraph-color" type="color" value="#34312e"><span>段落颜色</span></label><button id="reset-colors" class="text-button" type="button">恢复默认色</button></div></fieldset>
+      <fieldset class="background-setting"><legend>信纸背景</legend>
+        <div class="background-options"><button type="button" data-background="IMG_0006.jpg" aria-pressed="true"><img src="./IMG_0006.jpg" alt="">棉纹纸</button><button type="button" data-background="IMG_0003.jpg" aria-pressed="false"><img src="./IMG_0003.jpg" alt="">金箔纸</button><button type="button" data-background="IMG_0045.JPG" aria-pressed="false"><img src="./IMG_0045.JPG" alt="">墨皮纸</button><button type="button" data-background="IMG_0046.JPG" aria-pressed="false"><img src="./IMG_0046.JPG" alt="">星夜纸</button><button type="button" id="custom-background" data-background="custom" aria-pressed="false" hidden>我的背景</button><button type="button" id="upload-background">＋ 上传背景</button></div>
+        <input id="background-file" type="file" accept="image/*" hidden>
+        <p id="background-error" class="error" role="alert"></p>
+      </fieldset>
+      <p class="footnote">牵动整根文字绳，松手后沿路径滑出并自然下落，全部落地后整理成信</p>
+    </aside>
+  </main>
+  <dialog id="crop-dialog" aria-labelledby="crop-title" aria-describedby="crop-help">
+    <div class="crop-heading"><h2 id="crop-title">裁一张属于你的信纸</h2><p id="crop-name"></p></div>
+    <p id="crop-help">拖动图片调整位置，缩放选择范围。保留框内的竖版画面。</p>
+    <canvas id="crop-preview" width="600" height="800" tabindex="0" aria-label="背景裁切预览，可拖动或使用方向键调整图片位置"></canvas>
+    <div class="crop-zoom"><label for="crop-zoom">缩放</label><input id="crop-zoom" type="range" min="1" max="3" step="0.01" value="1"><output id="crop-zoom-value" for="crop-zoom">100%</output></div>
+    <div class="crop-actions"><button id="crop-reset" type="button">重置裁切</button><button id="crop-cancel" type="button">取消</button><button id="crop-apply" class="primary" type="button">使用这张背景</button></div>
+  </dialog>
+  <script type="module" src="./app.js?v=2.0-color-20261006"></script>
+</body>
+</html>

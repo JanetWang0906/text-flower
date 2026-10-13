@@ -1,0 +1,36 @@
+[
+  {
+    "nativeMock": false,
+    "guide": {
+      "position": {
+        "x": 55,
+        "y": 740
+      },
+      "overlaps": 0
+    },
+    "exportSize": [
+      1800,
+      2400
+    ],
+    "unchangedPlayback": true,
+    "errors": [],
+    "realDevice": false
+  },
+  {
+    "nativeMock": true,
+    "guide": {
+      "position": {
+        "x": 55,
+        "y": 740
+      },
+      "overlaps": 0
+    },
+    "exportSize": [
+      1800,
+      2400
+    ],
+    "unchangedPlayback": true,
+    "errors": [],
+    "realDevice": false
+  }
+]

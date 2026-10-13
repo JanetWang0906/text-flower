@@ -1,0 +1,21 @@
+{
+  "passed": 14,
+  "checks": [
+    "Default texture loads before the artwork is ready",
+    "Changing paper preserves animation and pause state",
+    "Dark leather paper switches palette to dark",
+    "Starry paper keeps the dark palette",
+    "Cotton paper switches palette back to light",
+    "Wide uploads open a 3:4 crop preview",
+    "Dragging changes the crop without exposing empty edges",
+    "Applying crop uses exactly the selected source rectangle",
+    "Upload selection preserves the current animation",
+    "Cancelling another upload retains the applied crop",
+    "Invalid image reports an error without replacing the background",
+    "Final enlargement uses the same original glyphs",
+    "Background controls do not overflow mobile layout",
+    "No browser errors"
+  ],
+  "errors": [],
+  "realDeviceTested": false
+}

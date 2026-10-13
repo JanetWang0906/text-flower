@@ -1,0 +1,69 @@
+{
+  "release": "2.0",
+  "date": "2026-10-09",
+  "source": "minitool-src/",
+  "archive": "zilihuajian-minitool-2.0.zip",
+  "bytes": 698372,
+  "sha256": "bd7fc2063d0f2b16549277f74e9f870bb0dd38b1604ffa8ca2591528d13c1f69",
+  "files": [
+    {
+      "path": "IMG_0003.jpg",
+      "bytes": 184610,
+      "sha256": "0784d9903b009e4dff2c0dae125f772bb0d3ef55ba48717da17de262978f2d0c"
+    },
+    {
+      "path": "IMG_0006.jpg",
+      "bytes": 212476,
+      "sha256": "5a49aa51b6d2c44c68a3236f19013b518157d7b7000984ea497071e71bb3b535"
+    },
+    {
+      "path": "IMG_0045.JPG",
+      "bytes": 185446,
+      "sha256": "343e4aee5a5b1ca29c85c478616fc254232b665866f869278300ed31555a6351"
+    },
+    {
+      "path": "IMG_0046.JPG",
+      "bytes": 101881,
+      "sha256": "ad09e0e12ada8831d30c046c4823e8b5be0f3e6c33deed3ccfe6026d26c392a3"
+    },
+    {
+      "path": "app.js",
+      "bytes": 56238,
+      "sha256": "57c1a7645b7fb89ad028a0c0ac1bf8d0e36b2a7f5b529147e227ebfceee62605"
+    },
+    {
+      "path": "index.html",
+      "bytes": 14376,
+      "sha256": "c5bbee34644e1e6f2e637efe4bc34275bd832bd1d3a960c2f7cd490970acc1bc"
+    },
+    {
+      "path": "style.css",
+      "bytes": 9599,
+      "sha256": "fa86f7aefa68c00037776d861069db884513f77fa89d4158539259abc5e1d1b0"
+    }
+  ],
+  "webUntouched": true,
+  "zipMatchesPreview": true,
+  "checks": [
+    "directory and ZIP audit: 7 files, 0 warnings",
+    "original rose baseline exact match, 6 snapshots",
+    "independent controls and SDK mocks",
+    "cake light defaults and cotton/gold paper selection",
+    "light paper reselection restores four colors and preserves paragraph color",
+    "palette changes preserve motion state",
+    "web files unchanged"
+  ],
+  "pending": [
+    "creator platform simulator",
+    "Android real device",
+    "iOS real device",
+    "Chrome 61 actual runtime"
+  ],
+  "documentation": "Online page unavailable earlier in this task; local API snapshot used.",
+  "lightCakeColors": [
+    "#4c7900",
+    "#ffc834",
+    "#634600",
+    "#d19d01"
+  ]
+}

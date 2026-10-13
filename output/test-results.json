@@ -1,0 +1,25 @@
+{
+  "passed": 18,
+  "checks": [
+    "Initial rose waits and editor is collapsed",
+    "No intro, clock or progress bar",
+    "Extraction overlaps the first-second shrink",
+    "Pause and theme change freeze rope, type and positions",
+    "Dark palette uses light default colors",
+    "Per-theme custom colors are remembered",
+    "Reset colors restores only the current palette",
+    "Playback reaches exact final typography",
+    "Paragraph size change reflows a completed letter",
+    "Replay restores rose",
+    "200 glyphs fit automatically",
+    "Over-limit input retains valid scene",
+    "Short drag reverses the same physical timeline",
+    "Armed drag continues from its preview",
+    "Touch cancellation restores the full rose",
+    "Touch release starts continuous playback",
+    "Mobile layout has no horizontal overflow",
+    "No browser errors"
+  ],
+  "errors": [],
+  "realDeviceTested": false
+}

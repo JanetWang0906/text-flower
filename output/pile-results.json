@@ -1,0 +1,36 @@
+{
+  "initial": {
+    "tip": 523.2870014263326,
+    "pathStart": 516.2185969500217,
+    "overflow": false
+  },
+  "results": [
+    {
+      "size": 12,
+      "phase": "order",
+      "time": 21.483333333332755,
+      "support": true,
+      "height": 310.5636190194224,
+      "separation": 0.9432561182418069,
+      "error": 0.018423760169514167
+    },
+    {
+      "size": 20,
+      "phase": "order",
+      "time": 21.083333333332778,
+      "support": true,
+      "height": 427.9988618239379,
+      "separation": 0.9782457054878891,
+      "error": 0.015668538235096705
+    },
+    {
+      "size": 32,
+      "phase": "order",
+      "time": 21.99166666666606,
+      "support": true,
+      "height": 481.22156019637964,
+      "separation": 0.9839147040548063,
+      "error": 0.00805618312684826
+    }
+  ]
+}
