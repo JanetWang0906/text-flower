@@ -1,10 +1,16 @@
 """Package the generated offline directory; preserve the prior ZIP."""
 from pathlib import Path
 from zipfile import ZipFile, ZIP_DEFLATED
+from argparse import ArgumentParser
 
 root = Path(__file__).resolve().parent.parent
 source = root / 'minitool'
-target = root / 'zilihuajian-minitool-2.0.zip'
+parser = ArgumentParser(description='Package the independent offline mini-tool without replacing the historical 2.0 ZIP.')
+parser.add_argument('--output', type=Path, default=root / 'output' / '字里花间-离线礼物分享-v3.0.zip')
+target = parser.parse_args().output
+if not target.is_absolute():
+    target = root / target
+target.parent.mkdir(parents=True, exist_ok=True)
 allowed = {'.html', '.js', '.css', '.jpg', '.jpeg', '.png', '.webp', '.svg', '.gif', '.woff', '.woff2', '.json'}
 files = sorted(p for p in source.rglob('*') if p.is_file() and p.suffix.lower() in allowed)
 assert source / 'index.html' in files

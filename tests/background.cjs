@@ -8,7 +8,7 @@ const fs = require('node:fs');
   const check=(name,ok)=>{assert.ok(ok,name);checks.push(name);console.log('PASS',name);};
   try {
     await page.clock.install();await page.goto(process.env.ROSE_URL || 'http://127.0.0.1:8765/');
-    await page.evaluate(async()=>{window.studio=(await import('/app.js?v=physical-20260925-8')).studio;await studio.ready;});
+    await page.evaluate(async()=>{window.studio=(await import(document.querySelector('script[type=module][src]').src)).studio;await studio.ready; const entry = document.getElementById('gift-entry-dialog'); if (entry) entry.close();});
     check('Default texture loads before the artwork is ready', await page.evaluate(()=>studio.background.current.name==='IMG_0006.jpg' && studio.background.current.image.naturalWidth>0));
     await page.click('#play');await page.clock.runFor(6500);await page.click('#play');
     const before=await page.evaluate(()=>JSON.stringify([studio.elapsed,studio.chains.map(c=>c.glyphs.map(g=>[g.x,g.y,g.scale,g.alpha]))]));

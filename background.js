@@ -2,14 +2,15 @@
 // Preset papers carry a palette mode: picking one switches the canvas palette
 // automatically (dark textures → dark palette, light papers → light palette).
 const PAPER_PALETTE = { 'IMG_0006.jpg': 'light', 'IMG_0003.jpg': 'light', 'IMG_0045.JPG': 'dark', 'IMG_0046.JPG': 'dark' };
+const { t } = window.WebI18n;
 const $ = id => document.getElementById(id);
 const clamp = (v, a = 0, b = 1) => Math.max(a, Math.min(b, v));
-const decode = src => new Promise((resolve, reject) => { const image = new Image(); image.onload = () => resolve(image); image.onerror = () => reject(new Error('无法读取这张图片，请换一张 JPG、PNG 或 WebP 图片。')); image.src = src; });
+const decode = src => new Promise((resolve, reject) => { const image = new Image(); image.onload = () => resolve(image); image.onerror = () => reject(new Error(t('无法读取这张图片，请换一张 JPG、PNG 或 WebP 图片。'))); image.src = src; });
 export class Background {
   constructor(redraw, onPalette) {
     this.redraw = redraw; this.onPalette = onPalette; this.current = null; this.uploaded = null; this.request = 0; this.pending = null; this.images = {};
     this.preview = $('crop-preview'); this.dialog = $('crop-dialog');
-    document.querySelectorAll('[data-background]').forEach(button => button.addEventListener('click', () => this.choose(button.dataset.background)));
+    document.querySelectorAll('[data-background]').forEach(button => button.addEventListener('click', () => this.choose(button.dataset.background, true)));
     $('upload-background').addEventListener('click', () => $('background-file').click());
     $('background-file').addEventListener('change', async e => {
       const file = e.target.files[0]; e.target.value = ''; if (!file) return;
@@ -18,8 +19,8 @@ export class Background {
         const image = await decode(url); if (request !== this.request) return;
         this.pending = { image, name: file.name, zoom: 1, x: .5, y: .5 };
         $('crop-name').textContent = file.name; $('crop-zoom').value = '1';
-        $('background-error').textContent = ''; this.dialog.showModal(); this.drawPreview();
-      } catch (e) { if (request === this.request) $('background-error').textContent = e.message; }
+        $('background-error').textContent = t(''); this.dialog.showModal(); this.drawPreview();
+      } catch (e) { if (request === this.request) $('background-error').textContent = t(e.message); }
       finally { URL.revokeObjectURL(url); }
     });
     $('crop-zoom').addEventListener('input', e => {
@@ -58,22 +59,22 @@ export class Background {
     if (!this.images[name]) this.images[name] = decode('./' + name).catch(error => { delete this.images[name]; throw error; });
     return this.images[name];
   }
-  use(state, palette) {
+  use(state, palette, fromPicker = false) {
     ++this.request; this.current = state;
     const name = state.selection || state.name;
     if (name === 'custom') this.uploaded = state;
-    this.select(name); $('background-error').textContent = '';
+    this.select(name); $('background-error').textContent = t('');
     const mode = palette || PAPER_PALETTE[name];
-    if (mode && this.onPalette) this.onPalette(mode);
+    if (mode && this.onPalette) this.onPalette(mode, fromPicker);
     this.redraw();
   }
-  async choose(name) {
+  async choose(name, fromPicker = false) {
     const request = ++this.request;
     try {
       const next = name === 'custom' ? this.uploaded : { image: await this.preload(name), zoom: 1, x: .5, y: .5, name };
       if (request !== this.request || !next) return;
-      this.use(next);
-    } catch (e) { if (request === this.request) $('background-error').textContent = e.message; }
+      this.use(next, undefined, fromPicker);
+    } catch (e) { if (request === this.request) $('background-error').textContent = t(e.message); }
   }
   select(name) { document.querySelectorAll('[data-background]').forEach(button => button.setAttribute('aria-pressed', String(button.dataset.background === name))); }
   rect(state) {
@@ -86,7 +87,7 @@ export class Background {
     const ctx = this.preview.getContext('2d'); ctx.clearRect(0, 0, 600, 800); this.paint(ctx, this.pending, 600, 800);
     ctx.strokeStyle = '#ffffff88'; ctx.lineWidth = 1; ctx.beginPath();
     for (let i = 1; i < 3; i++) { ctx.moveTo(200*i, 0); ctx.lineTo(200*i,800); ctx.moveTo(0,800*i/3); ctx.lineTo(600,800*i/3); } ctx.stroke();
-    $('crop-zoom-value').textContent = Math.round(this.pending.zoom * 100) + '%';
+    $('crop-zoom-value').textContent = t(Math.round(this.pending.zoom * 100) + '%');
   }
   draw(ctx) { if (this.current) this.paint(ctx, this.current, 900, 1200); }
 }

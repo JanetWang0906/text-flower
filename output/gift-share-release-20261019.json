@@ -1,0 +1,60 @@
+{
+  "date": "2026-10-19",
+  "format": {
+    "prefix": "ZLHJ:",
+    "version": 1,
+    "qrErrorCorrection": "M",
+    "maxUtf8Bytes": 2331
+  },
+  "package": {
+    "path": "output/字里花间-离线礼物分享-v3.0.zip",
+    "bytes": 780610,
+    "sha256": "276f7154fde689b85aa4f0382f543ffa053f4700dd98e31f6187aa40b8027f77",
+    "zipMatchesGeneratedDirectory": true,
+    "files": [
+      "IMG_0003.jpg",
+      "IMG_0006.jpg",
+      "IMG_0045.JPG",
+      "IMG_0046.JPG",
+      "app.js",
+      "gift-codec.js",
+      "gift-share.css",
+      "gift-share.js",
+      "index.html",
+      "style.css",
+      "vendor/jsQR.js",
+      "vendor/licenses.json",
+      "vendor/qrcode.js",
+      "vendor/versions.json"
+    ]
+  },
+  "verification": {
+    "giftCodec": "passed",
+    "giftShare": "passed",
+    "crossImplementationPngRoundTrips": 4,
+    "giftLayouts": 12,
+    "invalidQrCasesPreserveCurrentWork": 5,
+    "rotatedJpegOffline": "passed",
+    "minitoolFileOffline": "passed",
+    "nativeAlbumMockAndPermissionRetry": "passed",
+    "webParityLayouts": 36,
+    "hdExports": 8,
+    "originalRoseBaselineFrames": 6,
+    "originalRoseExactMatch": true,
+    "shapes": "passed",
+    "v2Controls": "passed",
+    "minitoolVerify": "passed",
+    "background": "passed",
+    "gravity": "passed",
+    "pile": "passed",
+    "externalRequests": [],
+    "browserErrors": [],
+    "historicalZipsAndBackupsUnchanged": true
+  },
+  "limitations": {
+    "customPhotoBackgroundFitsQr": false,
+    "simulatorTested": false,
+    "androidTested": false,
+    "iosTested": false
+  }
+}

@@ -17,7 +17,8 @@
       background: #efece4;
     }
   </style>
-  <link rel="stylesheet" href="./style.css?v=minitool-cake-light-20261009">
+  <link rel="stylesheet" href="./style.css">
+  <link rel="stylesheet" href="./gift-share.css">
 </head>
 <body>
   <!-- 玫瑰路径几何数据:小工具离线包禁止网络请求,SVG 以模板内联,由 app.js 读取 -->
@@ -63,10 +64,10 @@
 
   <main class="studio">
     <section class="workspace">
-      <header class="masthead"><span class="wordmark">字里花间<span class="wordmark-sub">TEXT IN BLOOM</span></span></header>
+      <header class="masthead"><span class="wordmark">字里花间<span class="wordmark-sub">TEXT IN BLOOM</span></span><button id="gift-entry" class="gift-entry-link" type="button">拆开收到的礼物</button></header>
       <div class="shape-toolbar">
-        <fieldset class="shape-setting"><legend>文字造型</legend><div class="segmented"><label><input name="shape" type="radio" value="rose" checked disabled><span>玫瑰</span></label><label><input name="shape" type="radio" value="cake" disabled><span>蛋糕</span></label></div></fieldset>
-        <button id="save-image" class="secondary" type="button" disabled aria-live="polite">保存高清图片</button>
+        <fieldset class="shape-setting"><legend class="sr-only">文字造型</legend><div class="shape-options-row"><span class="shape-label" aria-hidden="true">文字造型</span><div class="segmented"><label><input name="shape" type="radio" value="rose" checked disabled><span>玫瑰</span></label><label><input name="shape" type="radio" value="cake" disabled><span>蛋糕</span></label><label><input name="shape" type="radio" value="gift" disabled><span>礼物</span></label><label><input name="shape" type="radio" value="firework" disabled><span>烟花</span></label></div></div></fieldset>
+        <div class="save-actions"><button id="save-image" class="secondary" type="button" disabled aria-live="polite">保存高清图片</button><button id="save-gift-qr" class="secondary" type="button" disabled>保存分享二维码</button><button id="export-video" class="secondary" type="button" disabled>生成视频发布</button></div>
       </div>
       <p id="save-status" class="error" role="status"></p>
       <div class="paper-wrap">
@@ -74,8 +75,16 @@
         <div id="loading" class="loading" role="status">正在展开信纸…</div>
       </div>
       <footer class="stage-footer"><span id="stage-label" role="status">一朵玫瑰，藏着一封信</span></footer>
+      <p id="gift-status" class="gift-status" role="status" aria-live="polite"></p>
       <div class="toolbar">
-        <div class="actions"><button id="bloom" class="primary" type="button" disabled><span aria-hidden="true">✿</span><span>生花</span></button><button id="play" class="primary" type="button" disabled><span id="play-icon" aria-hidden="true">▷</span><span id="play-label">展开</span></button><button id="speed" type="button" aria-label="播放速度 2 倍，点击切换" title="切换播放速度">2×</button><button id="intro-speed" type="button" aria-label="生花速度 1 倍，点击切换" title="切换生花动画速度">生花 1×</button><button id="edit-toggle" type="button" aria-expanded="false" aria-controls="text-form">编辑文字</button><button id="reset" class="reset" type="button" disabled aria-label="回到玫瑰">↺</button></div>
+        <div class="actions playback-controls">
+          <button id="bloom" class="primary" type="button" disabled><span aria-hidden="true">✿</span><span>生花</span></button>
+          <button id="play" class="primary" type="button" disabled><span id="play-icon" aria-hidden="true">▷</span><span id="play-label">展开</span></button>
+          <div class="editing-actions"><button id="edit-toggle" type="button" aria-expanded="false" aria-controls="text-form">编辑文字</button><button id="reset" class="reset" type="button" disabled aria-label="回到玫瑰">↺</button></div>
+          <button id="intro-speed" type="button" aria-label="生花速度 1 倍，点击切换" title="切换生花速度">生花 1×</button>
+          <button id="speed" type="button" aria-label="展开速度 2 倍，点击切换" title="切换展开速度">展开 2×</button>
+          <fieldset class="mode-setting"><legend class="sr-only">打开这封信</legend><div class="segmented"><label><input name="mode" type="radio" value="auto" checked aria-label="自动播放"><span>自动</span></label><label><input name="mode" type="radio" value="manual" aria-label="手动牵引文字"><span>手动</span></label></div></fieldset>
+        </div>
         <form id="text-form" novalidate hidden>
           <div class="label-row"><label for="message">写给你的文字</label><span id="count">0 / 200</span></div>
           <textarea id="message" rows="5" spellcheck="false" aria-describedby="input-error">把那些来不及说出口的话，写成一朵玫瑰。愿你在平凡的日子里，也能遇见温柔的风、明亮的月光，和不期而遇的欢喜。
@@ -85,7 +94,6 @@
           <div class="input-footer"><span id="edit-hint">按字宽铺满玫瑰，每个字只出现一次</span><button class="text-button" type="submit">应用文字 <span aria-hidden="true">↗</span></button></div>
           <p id="input-error" class="error" role="alert"></p>
         </form>
-        <fieldset class="mode-setting"><legend class="sr-only">打开这封信</legend><div class="segmented"><label><input name="mode" type="radio" value="auto" checked><span>自动播放</span></label><label><input name="mode" type="radio" value="manual"><span>亲手牵引</span></label></div></fieldset>
         <p id="mode-hint">点击播放，或从枝叶上端轻轻向下拉。</p>
       </div>
       <fieldset class="background-setting"><legend>信纸背景</legend>
@@ -123,6 +131,44 @@
     <img id="export-image" alt="当前文字作品的高清图片">
     <button id="export-close" class="secondary" type="button">关闭预览</button>
   </dialog>
-  <script src="./app.js?v=minitool-cake-light-20261009"></script>
+  <dialog id="gift-entry-dialog" class="gift-dialog" aria-labelledby="gift-entry-title" aria-describedby="gift-entry-help">
+    <p class="gift-kicker">字里花间 · 把心意交给你</p>
+    <h2 id="gift-entry-title">今天，想送出还是收下？</h2>
+    <p id="gift-entry-help" class="gift-help">把祝福做成礼物，或拆开别人为你准备的那一份。</p>
+    <div class="gift-choices">
+      <button id="gift-create" class="gift-choice" type="button"><strong>制作一份礼物 <span aria-hidden="true">↗</span></strong><span>从默认玫瑰开始，写下你的心意。</span></button>
+      <button id="gift-open" class="gift-choice" type="button"><strong>拆开收到的礼物 <span aria-hidden="true">↗</span></strong><span>从相册选择礼物二维码，在这里亲手打开。</span></button>
+    </div>
+    <input id="gift-file" type="file" accept="image/png,image/jpeg,image/webp,image/gif,image/bmp" aria-label="选择收到的礼物二维码图片" hidden>
+    <p id="gift-entry-status" class="error" role="status" aria-live="polite"></p>
+  </dialog>
+  <dialog id="gift-qr-dialog" class="gift-dialog" aria-labelledby="gift-qr-title" aria-describedby="gift-qr-help">
+    <p class="gift-kicker">一份可以亲手打开的心意</p>
+    <h2 id="gift-qr-title">保存分享二维码</h2>
+    <p id="gift-qr-help" class="gift-help">请将原图发给收礼人。对方打开「字里花间」，选择「拆开收到的礼物」并上传此图，就能体验你的定制动画。祝福与设置直接保存在码里，离线也能拆开。</p>
+    <img id="gift-qr-image" alt="包含当前祝福文字、造型、颜色和动画设置的礼物二维码">
+    <p id="gift-qr-status" class="error" role="status" aria-live="polite"></p>
+    <div class="gift-dialog-actions"><button id="gift-qr-save" class="primary" type="button">保存二维码</button><button id="gift-qr-close" class="secondary" type="button">关闭预览</button></div>
+  </dialog>
+  <dialog id="video-dialog" aria-labelledby="video-title" aria-describedby="video-help">
+    <h2 id="video-title">把这封信，留成一段视频</h2>
+    <p id="video-help">从头录制当前已应用的文字、配色和信纸，包含成形、展开与成信。720 × 960 · 24 帧 · 无声 MP4，完成后停留 2 秒。录制时请保持页面在前台。</p>
+    <canvas id="video-canvas" width="720" height="960" aria-label="导出动画预览"></canvas>
+    <video id="video-preview" controls playsinline preload="metadata" hidden aria-label="已生成的视频"></video>
+    <p id="video-status" role="status" aria-live="polite"></p>
+    <p class="video-note">小红书内可将视频带入发布页。当前平台尚未公开直接保存视频到相册的接口。</p>
+    <div class="video-actions"><button id="video-start" class="primary" type="button">开始生成</button><button id="video-share" class="primary" type="button" hidden>打开视频发布页</button><button id="video-close" class="secondary" type="button">关闭</button></div>
+  </dialog>
+  <script src="./vendor/qrcode.js"></script>
+  <script src="./vendor/jsQR.js"></script>
+  <script src="./shared/shapes.js"></script>
+  <script src="./shared/comet-trails.js"></script>
+  <script src="./shared/comet-fireworks.js"></script>
+  <script src="./shared/firework-motion.js"></script>
+  <script src="./shared/interaction.js"></script>
+  <script src="./gift-codec.js"></script>
+  <script src="./gift-share.js"></script>
+  <script src="./video-export.js"></script>
+  <script src="./app.js"></script>
 </body>
 </html>

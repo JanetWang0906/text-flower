@@ -1,6 +1,7 @@
+const roseBase = process.env.ROSE_URL || 'http://127.0.0.1:8765/';
 const {chromium}=require('playwright'),assert=require('node:assert/strict');
 (async()=>{const browser=await chromium.launch({executablePath:'/Applications/Google Chrome.app/Contents/MacOS/Google Chrome',headless:true});try{
- const page=await browser.newPage({viewport:{width:390,height:844}}),errors=[];page.on('pageerror',e=>errors.push(e.message));await page.clock.install();await page.goto('http://127.0.0.1:8765');await page.evaluate(async()=>{window.s=(await import('/app.js?v=2.0-color-20261006')).studio;await s.ready;for(let i=0;i<370;i++)s.tick(1/120);});
+ const page=await browser.newPage({viewport:{width:390,height:844}}),errors=[];page.on('pageerror',e=>errors.push(e.message));await page.clock.install();await page.goto(new URL('', roseBase).href);await page.evaluate(async()=>{window.s=(await import(document.querySelector('script[type=module][src]').src)).studio;await s.ready; const entry = document.getElementById('gift-entry-dialog'); if (entry) entry.close();for(let i=0;i<370;i++)s.tick(1/120);});
  assert.equal(await page.evaluate(()=>s.status),'idle');assert.equal(await page.evaluate(()=>document.documentElement.scrollWidth>innerWidth),false);
  const tip=await page.evaluate(()=>{const r=s.canvas.getBoundingClientRect(),g=s.motion.originals[0];return{x:r.left+g.x*r.width/900,y:r.top+g.y*r.height/1200}});
  await page.mouse.move(tip.x,tip.y);await page.mouse.down();await page.mouse.move(tip.x+60,tip.y-70,{steps:10});await page.evaluate(()=>{for(let i=0;i<60;i++)s.tick(1/120)});await page.mouse.up();

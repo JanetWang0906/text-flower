@@ -7,7 +7,7 @@ const dist=(a,b)=>Math.hypot(a.x-b.x,a.y-b.y);
 export function arcTable(points){let length=0;return {points:points.map((p,i)=>{if(i)length+=dist(p,points[i-1]);return Object.assign({},p,{s:length});}),get length(){return length;}};}
 export function sample(path,s){s=clamp(s,0,path.length);let a=0,b=path.points.length-1;while(b-a>1){const m=(a+b)>>1;if(path.points[m].s<s)a=m;else b=m;}const p=path.points[a],q=path.points[b],u=(s-p.s)/(q.s-p.s||1);return{x:mix(p.x,q.x,u),y:mix(p.y,q.y,u),angle:Math.atan2(q.y-p.y,q.x-p.x)};}
 export function connectPaths(paths,order=paths.map((_,i)=>i)){
- const chains=order.map(index=>Object.assign(arcTable(paths[index].points.slice()),{colorIndex:index}));
+ const chains=order.map(index=>Object.assign(arcTable(paths[index].points.slice()),{colorIndex:paths[index].points[0].colorIndex === undefined ? index : paths[index].points[0].colorIndex}));
  return {chains,length:chains.reduce((sum,chain)=>sum+chain.length,0)};
 }
 export function connectRose(paths){return connectPaths(paths,[1,0]);}

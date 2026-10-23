@@ -1,6 +1,7 @@
+const roseBase = process.env.ROSE_URL || 'http://127.0.0.1:8765/';
 const {chromium}=require('playwright'),assert=require('node:assert/strict'),fs=require('node:fs');
 (async()=>{const browser=await chromium.launch({executablePath:'/Applications/Google Chrome.app/Contents/MacOS/Google Chrome',headless:true});try{
- const p=await browser.newPage({viewport:{width:408,height:858}});await p.clock.install();await p.goto('http://127.0.0.1:8765/?v=birthday-20261006');await p.evaluate(async()=>{window.s=(await import('/app.js?v=2.0-color-20261006')).studio;await s.ready;for(let i=0;i<370;i++)s.tick(1/120)});
+ const p=await browser.newPage({viewport:{width:408,height:858}});await p.clock.install();await p.goto(new URL('?v=birthday-20261006', roseBase).href);await p.evaluate(async()=>{window.s=(await import(document.querySelector('script[type=module][src]').src)).studio;await s.ready; const entry = document.getElementById('gift-entry-dialog'); if (entry) entry.close();for(let i=0;i<370;i++)s.tick(1/120)});
  const initial=await p.evaluate(()=>({tip:s.motion.originals[0].y,pathStart:s.paths[1].points[0].y,overflow:document.documentElement.scrollWidth>innerWidth}));assert.ok(Math.abs(initial.tip-initial.pathStart)<25);assert.equal(initial.overflow,false);await p.screenshot({path:'output/pile-initial.png',fullPage:true});
  const results=[];
  for(const size of [12,20,32]){

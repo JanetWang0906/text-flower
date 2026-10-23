@@ -1,6 +1,7 @@
 {
   "baseline": "backups/minitool-original-20260928/",
-  "originalUI": true,
+  "originalControlsRetained": true,
+  "userAuthorizedLayout": true,
   "originalCSS": true,
   "originalSolver": true,
   "nativeAlbumFlowRetained": true,

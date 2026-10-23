@@ -1,3 +1,4 @@
+const roseBase = process.env.ROSE_URL || 'http://127.0.0.1:8765/';
 const assert = require('node:assert/strict');
 const fs = require('node:fs');
 const { chromium } = require('playwright');
@@ -22,10 +23,10 @@ const { chromium } = require('playwright');
           }) });
         });
       }
-      await page.goto('http://127.0.0.1:8765/' + (mini ? 'minitool/index.html' : ''));
+      await page.goto(new URL('', roseBase).href + (mini ? 'minitool/index.html' : ''));
       await page.evaluate(async mini => {
-        window.s = mini ? window.studio : (await import('/app.js?v=2.0-color-20261006')).studio;
-        await s.ready;
+        window.s = mini ? window.studio : (await import(document.querySelector('script[type=module][src]').src)).studio;
+        await s.ready; const entry = document.getElementById('gift-entry-dialog'); if (entry) entry.close();
       }, mini);
       assert.equal(await page.evaluate(() => s.shape), 'rose');
       const originalText = await page.evaluate(() => s.text);

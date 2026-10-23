@@ -1,4 +1,4 @@
-/*! 字里花间 · 小工具专用源码 — 基于原小工具增加蛋糕；网页构建不得覆盖 */
+/*! 字里花间 · 小工具专用源码 — 复用原文字绳引擎处理玫瑰、蛋糕与礼物；网页构建不得覆盖 */
 (function(){
 "use strict";
 // Two independent material chains: leaf first, then flower. Unreleased
@@ -14,7 +14,7 @@ function connectRose(paths){
  return {chains,length:chains[0].length+chains[1].length};
 }
 function connectPaths(paths,order){
- const chains=order.map(index=>Object.assign(arcTable(paths[index].points.slice()),{colorIndex:index}));
+ const chains=order.map(index=>Object.assign(arcTable(paths[index].points.slice()),{colorIndex:paths[index].points[0].colorIndex === undefined ? index : paths[index].points[0].colorIndex}));
  return {chains,length:chains.reduce((n,c)=>n+c.length,0)};
 }
 class LetterMotion {
@@ -24,7 +24,7 @@ class LetterMotion {
   const total=sources.reduce((sum,g)=>sum+g.w+size*.08,0),target=total*path.chains[0].length/path.length;
   let width=0,split=1;
   for(let i=0;i<sources.length-1;i++){width+=sources[i].w+size*.08;if(width>=target){split=i+1;break;}}
-  let boundaries=[0,split,sources.length];
+  let boundaries=path.chains.length===1?[0,sources.length]:[0,split,sources.length];
   if(path.chains.length>2){
    boundaries=[0];let cursor=0,used=0,length=0;
    for(let c=0;c<path.chains.length-1;c++){
@@ -56,7 +56,7 @@ class LetterMotion {
   // strands then read as one continuous stream without overlapping (they
   // hang ~80 px apart horizontally, and cross-chain collisions keep glyphs
   // apart).
-  const leafExit=path.chains[0].points[0],flowerExit=path.chains[1].points[0];
+  const leafExit=path.chains[0].points[0],flowerExit=(path.chains[1]||path.chains[0]).points[0];
   this.handoffLead=Math.hypot(leafExit.x-flowerExit.x,leafExit.y-flowerExit.y);
   this.compact=Math.min(1,size/letterSize,340/Math.max(letterSize,...sources.map(g=>Math.abs(g.finalY-600)*2+letterSize)));
   this.updateGlyphs();
@@ -364,28 +364,9 @@ function makeTable(points) {
   return { points, length };
 }
 
-const BIRTHDAY_TEXT = `生日快乐！把今天的祝福，写成一块只属于你的蛋糕。愿烛光照亮眼前的小小愿望，也照亮新一岁还没走过的路。
-愿你有好好吃饭的胃口，有安心入睡的夜晚，有想见就能见的人，也有说走就走的勇气。忙碌的时候记得歇一歇，难过的时候有人愿意听你慢慢说。
-吹灭蜡烛之前，请认真许一个愿。愿你喜欢的事都有回响，惦念的人平安顺遂，努力的日子偶尔收获惊喜，平凡的生活也能尝出甜味。
-新的一岁，不必急着成为谁。继续做你自己，笑得自在，走得从容。愿你被爱包围，也拥有照顾自己的力量。今天的蛋糕很甜，往后的每一天，都愿你快乐。`;
-
-// Shape defaults and geometry share the same LetterMotion implementation.
-const SHAPES = {
-  rose: {
-    name: '玫瑰', file: './玫瑰路径图.svg', order: [1, 0], grip: '枝叶上端', defaultBackground: 'IMG_0006.jpg',
-    idle: '一朵玫瑰，藏着一封信', complete: '原来，这些话都藏在花里',
-    unfolding: '枝叶先滑出，花朵接着展开', colorLabel: '花与叶的颜色',
-    parts: [{ id: 'flower', label: '花朵', selector: '.cls-2' }, { id: 'leaf', label: '枝叶', selector: '.cls-1' }],
-    palettes: { light: ['#d35159', '#4b8b3d', '#34312e'], dark: ['#f2a2b0', '#b8d99b', '#f4efe6'] }
-  },
-  cake: {
-    name: '蛋糕', file: './蛋糕/蛋糕.svg', order: [2, 1, 0, 3], grip: '托盘左端', defaultBackground: 'IMG_0046.JPG', intro: true,
-    idle: '一块蛋糕，藏着一封信', complete: '原来，这些祝福都藏在蛋糕里',
-    unfolding: '托盘、蛋糕、奶油和蜡烛依次展开', colorLabel: '蛋糕的颜色',
-    parts: [{ id: 'cream', label: '奶油', selector: '.cls-4' }, { id: 'cake-body', label: '蛋糕', selector: '.cls-1' }, { id: 'plate', label: '托盘', selector: '.cls-2' }, { id: 'candle', label: '蜡烛', selector: '.cls-3' }],
-    palettes: { light: ['#4c7900', '#ffc834', '#634600', '#d19d01', '#34312e'], dark: ['#ffb4c0', '#ddd0f2', '#b6d5fb', '#ffda94', '#f4efe6'] }
-  }
-};
+const { SHAPES, samplePaths, shapeGuidePosition } = window.TextShapes;
+const { releaseAction } = window.TextInteraction;
+const FireworkMotion = window.TextFirework.adapt(LetterMotion);
 
 class RoseStudio {
   constructor() {
@@ -394,54 +375,47 @@ class RoseStudio {
     this.shape='rose';this.shapeConfig=SHAPES.rose;this.pathCache={};this.shapePalettes={};
     Object.keys(SHAPES).forEach(key=>{this.shapePalettes[key]={light:SHAPES[key].palettes.light.slice(),dark:SHAPES[key].palettes.dark.slice()};});
     this.paletteMode='light';this.palettes=this.shapePalettes.rose;this.colors=this.palettes.light.slice(0,2);this.ink='#34312e';this.text=$('message').value;
-    this.defaultTexts={rose:this.text,cake:BIRTHDAY_TEXT};this.shapeBackgrounds={};
+    this.defaultTexts={rose:this.text,cake:SHAPES.cake.defaultText,gift:SHAPES.gift.defaultText,firework:SHAPES.firework.defaultText};this.shapeBackgrounds={};
     this.roseColorMarkup=document.querySelector('.color-row').innerHTML;
     this.sources = []; this.chains = []; this.paths = []; this.drag = null; this.returning = false;
     this.accumulator = 0; this.previousFrame = 0; this.lastUI = '';
+    this.defaultFootnote = document.querySelector('.footnote').textContent;
     this.updateShapeControls(); this.bind();
     this.background = new Background(() => this.draw(), (mode, fromPicker) => {
-      if (this.shape === 'cake' && mode === 'light' && fromPicker) {
-        // Selecting either light paper restores its four cake colors, even
+      if (this.shapeConfig.paletteBackgrounds && mode === 'light' && fromPicker) {
+        // Selecting either light paper restores the shape's part colors, even
         // while already in light mode. Shape restoration keeps user colors.
-        this.palettes.light.splice(0, 4, ...this.shapeConfig.palettes.light.slice(0, 4));
+        const count = this.shapeConfig.parts.length;
+        this.palettes.light.splice(0, count, ...this.shapeConfig.palettes.light.slice(0, count));
         this.setPalette(mode);
       } else if (this.paletteMode !== mode) this.setPalette(mode);
     });
-    if (typeof ResizeObserver === 'function') { this.resizeObserver = new ResizeObserver(() => this.resize()); this.resizeObserver.observe(this.canvas); } else { window.addEventListener('resize', () => this.resize()); }
+    if (typeof ResizeObserver === 'function') {
+      this.resizeObserver = new ResizeObserver(() => {
+        if (this.resizeQueued) return; this.resizeQueued = true;
+        requestAnimationFrame(() => { this.resizeQueued = false; this.resize(); });
+      });
+      this.resizeObserver.observe(this.canvas);
+    } else { window.addEventListener('resize', () => this.resize()); }
     this.ready = this.initialize();
   }
   async loadPaths(shape) {
     const config = SHAPES[shape], source = document.getElementById(shape + '-source');
-    if (!source) throw new Error(config.name + '路径数据缺失。');
-    const svgText = source.innerHTML; // 小工具始终使用内联路径
-    const xml = new DOMParser().parseFromString(svgText, 'image/svg+xml');
-    if (xml.querySelector('parsererror')) throw new Error(`${config.name}路径文件无法解析。`);
-    const svg = document.importNode(xml.documentElement, true);
-    // Never insert the SVG artwork into the visible canvas. It is geometry only.
-    svg.setAttribute('aria-hidden', 'true');
-    svg.style.cssText = 'position:absolute;width:0;height:0;overflow:hidden;pointer-events:none';
-    document.body.append(svg);
-    try {
-      const box = svg.viewBox.baseVal;
-      const scale = Math.min(760 / box.width, 1060 / box.height);
-      const ox = (W - box.width * scale) / 2 - box.x * scale, oy = (shape === 'rose' ? 70 : (H - box.height * scale) / 2) - box.y * scale;
-      return config.parts.map(part => {
-        const path = svg.querySelector(part.selector);
-        if (!path) throw new Error(`SVG 中缺少${part.label}路径。`);
-        const length = path.getTotalLength(), samples = Math.ceil(length * scale / 1.5), points = [];
-        for (let i = 0; i <= samples; i++) { const p = path.getPointAtLength(length * i / samples); points.push({ x: ox + p.x * scale, y: oy + p.y * scale }); }
-        return makeTable(points);
-      });
-    } finally { svg.remove(); }
+    if (config.procedural) return samplePaths(null, config).map(makeTable);
+    const svgText = config.svg || (source && source.innerHTML);
+    if (!svgText) throw new Error(config.name + '路径数据缺失。');
+    return samplePaths(svgText, config, shape === 'rose' ? { top: 70 } : null).map(makeTable);
   }
   async initialize() {
     try {
       const keys=Object.keys(SHAPES),paths=await Promise.all(keys.map(key=>this.loadPaths(key)));
       keys.forEach((key,i)=>{this.pathCache[key]=paths[i];});
       this.paths=this.pathCache.rose;this.ropePath=connectRose(this.paths);
-      const defaults=await Promise.all([document.fonts.ready,this.background.ready,this.background.preload('IMG_0046.JPG'),this.background.preload('IMG_0003.jpg')]);
+      const defaults=await Promise.all([document.fonts.ready,this.background.ready,this.background.preload('IMG_0046.JPG'),this.background.preload('IMG_0003.jpg'),this.background.preload('IMG_0045.JPG')]);
       this.shapeBackgrounds.rose={state:this.background.current,palette:this.paletteMode};
       this.shapeBackgrounds.cake={state:{image:defaults[2],name:'IMG_0046.JPG',zoom:1,x:.5,y:.5},palette:'dark'};
+      this.shapeBackgrounds.gift = { state: { image: defaults[2], name: SHAPES.gift.defaultBackground, zoom: 1, x: .5, y: .5 }, palette: 'dark' };
+      this.shapeBackgrounds.firework = { state: { image: defaults[2], name: SHAPES.firework.defaultBackground, zoom: 1, x: .5, y: .5 }, palette: 'dark' };
       if(!this.apply(this.text,this.size,this.paragraphSize,false,false,true))throw new Error($('input-error').textContent);
       $('loading').hidden=true;$('play').disabled=false;$('bloom').disabled=false;$('reset').disabled=false;$('save-image').disabled=false;
       document.querySelectorAll('input[name=shape]').forEach(input=>{input.disabled=false;});
@@ -467,15 +441,18 @@ class RoseStudio {
       label.append(input, name, output); row.append(label);
     });
     }
-    this.canvas.setAttribute('aria-label', `文字${config.name}动画。拖动${config.grip}圆圈牵引文字绳，松手后沿路径滑出并自然下落，全部落地后整理成信。`);
+    this.canvas.setAttribute('aria-label', config.canvasLabel || `文字${config.name}动画。拖动${config.grip}圆圈牵引文字绳，松手后沿路径滑出并自然下落，全部落地后整理成信。`);
     document.querySelector('.workspace').setAttribute('aria-label', `文字${config.name}预览`);
     $('reset').setAttribute('aria-label', '回到' + config.name); $('reset').title = '回到' + config.name;
     if ($('bloom')) {
-      const action = this.shape === 'rose' ? '生花' : '成形';
+      const action = this.shape === 'rose' ? '生花' : this.shape === 'firework' ? '重放' : '成形';
       $('bloom').lastElementChild.textContent = action; $('bloom').setAttribute('aria-label', '生成文字' + config.name);
       $('intro-speed').textContent = `${action} ${this.introSpeed}×`; $('intro-speed').setAttribute('aria-label', `${action}速度 ${this.introSpeed} 倍，点击切换`); $('intro-speed').title = `切换${action}速度`;
     }
     this.shapeConfig.parts.forEach((part,i)=>{ $(part.id+'-color').value=this.colors[i]; $(part.id+'-hex').textContent=this.colors[i].toUpperCase(); });
+    document.querySelector('[name=mode][value=manual]').setAttribute('aria-label', config.motion === 'firework' ? '手动点击绽放' : '手动牵引文字');
+    document.querySelector('.footnote').textContent = config.footnote || this.defaultFootnote;
+    $('intro-speed').hidden = !!config.procedural;
     document.title = '字里花间 · ' + config.idle;
   }
   selectShape(shape) {
@@ -494,6 +471,48 @@ class RoseStudio {
     this.updateShapeControls(); this.setPalette(this.shapeBackgrounds[shape].palette);
     this.background.use(this.shapeBackgrounds[shape].state, this.shapeBackgrounds[shape].palette);
     this.inputHint(); return true;
+  }
+  giftSettings() {
+    const bg = this.background.current, paper = window.GiftCodec.PAPERS.indexOf(bg && (bg.selection || bg.name));
+    if (paper < 0) throw new Error('当前使用了自定义背景照片，单张二维码无法完整保存照片。请先选择一种内置信纸，再保存分享二维码。');
+    return window.GiftCodec.validate({ v: 1, s: window.GiftCodec.SHAPES.indexOf(this.shape), t: this.text, c: this.colors.slice(), i: this.ink,
+      p: this.paletteMode, f: this.size, l: this.paragraphSize,
+      a: [this.mode === 'auto' ? 0 : 1, this.speed, this.introSpeed, 1], b: [paper, bg.zoom, bg.x, bg.y] });
+  }
+  async restoreGift(data) {
+    const gift = window.GiftCodec.validate(data), shape = window.GiftCodec.SHAPES[gift.s], config = SHAPES[shape];
+    const paths = this.pathCache[shape];
+    // Keep the mini-tool's original rose geometry and its own text-rope engine.
+    const ropePath = shape === 'rose' ? connectRose(paths) : connectPaths(paths, config.order);
+    const candidate = Object.create(this); candidate.shapeConfig = config; candidate.ropePath = ropePath;
+    const sources = candidate.layout(gift.t, gift.f, gift.l);
+    const span = sources.reduce((n, g) => n + g.w + gift.f * .08, 0) - gift.f * .08;
+    if (!config.procedural && (ropePath.length / Math.max(1, span) < .95 || ropePath.length / Math.max(1, span) > 1.6)) {
+      throw new Error('这份礼物的文字无法按原字号组成完整造型，请让送礼人检查文字后重新保存二维码。');
+    }
+    const motion = new (config.motion === 'firework' ? FireworkMotion : LetterMotion)(ropePath, sources, gift.f, sources.letterSize, !!gift.a[3]);
+    const name = window.GiftCodec.PAPERS[gift.b[0]], image = await this.background.preload(name);
+    const bg = { image, name, zoom: gift.b[1], x: gift.b[2], y: gift.b[3] };
+    this.shapeBackgrounds[this.shape] = { state: this.background.current, palette: this.paletteMode };
+    this.cancelCapture();
+    this.shapePalettes[shape][gift.p] = gift.c.concat(gift.i);
+    Object.assign(this, { shape, shapeConfig: config, paths, ropePath, palettes: this.shapePalettes[shape], paletteMode: gift.p,
+      colors: gift.c.slice(), ink: gift.i, mode: gift.a[0] ? 'manual' : 'auto', speed: gift.a[1], introSpeed: gift.a[2],
+      motion, sources, text: gift.t, size: gift.f, paragraphSize: sources.letterSize, elapsed: 0,
+      status: 'idle', returning: false, returnState: null, accumulator: 0, previousFrame: 0 });
+    this.chains = paths.map((path, index) => ({ index, path, glyphs: motion.originals.filter(g => motion.independent ? g.chain === index : g.color === index) }));
+    $('message').value = gift.t; $('message').removeAttribute('aria-invalid');
+    $('input-error').textContent = ''; $('fit-note').textContent = '';
+    $('text-form').hidden = true; $('edit-toggle').setAttribute('aria-expanded', 'false');
+    $('font-size').value = gift.f; $('font-value').textContent = gift.f;
+    $('paragraph-size').min = Math.min(12, this.paragraphSize); $('paragraph-size').value = this.paragraphSize;
+    $('paragraph-value').textContent = this.paragraphSize; $('paragraph-min').textContent = `细腻 · ${Math.min(12, this.paragraphSize)}`;
+    document.querySelectorAll('input[name=mode]').forEach(input => { input.checked = input.value === this.mode; });
+    $('speed').textContent = `展开 ${this.speed}×`; $('speed').setAttribute('aria-label', `展开速度 ${this.speed} 倍，点击切换`);
+    this.updateShapeControls(); this.setPalette(gift.p);
+    if(motion.procedural){motion.palette=this.colors.slice();if(this.mode==='auto')this.status='playing';} this.background.use(bg, gift.p);
+    this.shapeBackgrounds[shape] = { state: bg, palette: gift.p };
+    this.inputHint(); this.updateUI(); this.draw();
   }
   layout(text, roseSize, requestedSize = this.paragraphSize) {
     const chars = graphemes(text);
@@ -527,6 +546,7 @@ class RoseStudio {
     return sources;
   }
   range(size=this.size) {
+    if(this.shapeConfig.procedural)return {min:1,max:2000};
     const L=(this.ropePath&&this.ropePath.length)||6000;
     return {min:Math.ceil(L/(size*1.08*1.6)),max:Math.floor(L/(size*1.08*.95))};
   }
@@ -534,6 +554,7 @@ class RoseStudio {
     const r=this.range(size),count=graphemes($('message').value).filter(g=>!/[\r\n]/.test(g)).length;
     $('count').textContent=`${count} 字素`;
     $('edit-hint').textContent=`${size} 号字建议约 ${r.min}–${r.max} 个中文字符；按实际字宽校验，不重复补字。`;
+    if(this.shapeConfig.procedural)$('edit-hint').textContent='每次用一部分文字绽放烟花，可写 1–2000 个字素；文字不重复填充。';
   }
   apply(text, size, paragraphSize = this.paragraphSize, keepComplete = false, autoFit = false, intro = false) {
     try {
@@ -543,15 +564,16 @@ class RoseStudio {
       for(const candidate of sizes){
         sources=this.layout(text,candidate,paragraphSize);
         const width=sources.reduce((n,g)=>n+g.w+candidate*.08,0)-candidate*.08;
-        ratio=this.ropePath.length/Math.max(1,width);
+        ratio=this.shapeConfig.procedural?1:this.ropePath.length/Math.max(1,width);
         if(ratio>=.95&&ratio<=1.6){size=candidate;break;}
       }
       if(ratio<.95||ratio>1.6){const lo=this.range(32).min,hi=this.range(12).max;throw new Error(`文字${ratio>1.6?'太少':'太多'}，无法铺满完整${this.shapeConfig.name}。支持约 ${lo}–${hi} 个中文字符（含标点），请调整字数后再试。`);}
-      const motion=new LetterMotion(this.ropePath,sources,size,sources.letterSize,intro);
+      const motion=new (this.shapeConfig.motion === 'firework' ? FireworkMotion : LetterMotion)(this.ropePath,sources,size,sources.letterSize,intro);
       this.cancelCapture();this.motion=motion;this.sources=sources;this.size=size;this.paragraphSize=sources.letterSize;this.text=text;
       this.elapsed=0;this.status=keepComplete?'complete':'idle';this.returning=false;this.returnState=null;
-      this.chains=this.paths.map((path,index)=>({index,path:this.paths[index],glyphs:motion.originals.filter(g=>g.color===index)}));
+      this.chains=this.paths.map((path,index)=>({index,path:this.paths[index],glyphs:motion.originals.filter(g=>motion.independent?g.chain===index:g.color===index)}));
       if(keepComplete)motion.finish();
+      if(motion.procedural&&!keepComplete){motion.palette=this.colors.slice();if(this.mode==='auto')this.status='playing';}
       $('input-error').textContent='';$('message').removeAttribute('aria-invalid');
       $('font-size').value=size;$('font-value').textContent=size;
       $('paragraph-size').min=Math.min(12,this.paragraphSize);$('paragraph-size').value=this.paragraphSize;$('paragraph-value').textContent=this.paragraphSize;
@@ -591,7 +613,69 @@ class RoseStudio {
     try { this.render(canvas.getContext('2d'), canvas.width, canvas.height, false); return canvas.toDataURL('image/png'); }
     finally { canvas.width = 1; canvas.height = 1; }
   }
+  createVideoScene() {
+    // A fresh engine replays the applied settings; the live engine and any
+    // unsaved text draft remain untouched. Never instantiate another UI.
+    const scene = Object.create(this);
+    scene.colors = this.colors.slice();
+    scene.background = Object.create(this.background);
+    scene.background.current = Object.assign({}, this.background.current);
+    scene.motion = new (this.shapeConfig.motion === 'firework' ? FireworkMotion : LetterMotion)(this.ropePath, this.sources, this.size, this.paragraphSize, true);
+    scene.motion.palette = scene.colors.slice();
+    scene.motion.autoContinue = true;
+    const introSpeed = this.introSpeed, speed = this.speed;
+    let hold = 0, accumulator = 0;
+    return {
+      render: (ctx, width, height) => scene.render(ctx, width, height, false),
+      advance: delta => {
+        if (scene.motion.phase === 'rope' && !scene.motion.flowing) {
+          hold += delta;
+          if (hold < .8) return false;
+          scene.motion.drop();
+        }
+        accumulator += delta * (scene.motion.phase === 'intro' ? introSpeed : speed);
+        while (accumulator >= 1 / 120 && scene.motion.phase !== 'complete') {
+          scene.motion.step(1 / 120, true); accumulator -= 1 / 120;
+        }
+        return scene.motion.phase === 'complete';
+      }
+    };
+  }
+  giftThumbnail() {
+    // Render the formed gift on a fresh engine, even if the live artwork is
+    // currently falling or already a letter. Never move the user's glyphs.
+    const scene = Object.create(this);
+    scene.motion = new (this.shapeConfig.motion === 'firework' ? FireworkMotion : LetterMotion)(this.ropePath, this.sources, this.size, this.paragraphSize, false);
+    scene.colors = this.colors.slice(); scene.motion.palette = scene.colors.slice();
+    if (scene.motion.procedural) {
+      scene.motion.burst({ x: 450, y: 420 });
+      for (let i = 0; i < 180; i++) scene.motion.step(1 / 120, false);
+    }
+    const canvas = document.createElement('canvas'); canvas.width = 240; canvas.height = 320;
+    let ctx = canvas.getContext('2d');
+    scene.render(ctx, canvas.width, canvas.height, false);
+    try { ctx.getImageData(0, 0, 1, 1); }
+    catch (error) {
+      if (error.name !== 'SecurityError') throw error;
+      // Some offline/file loaders allow an image to display but taint a
+      // canvas containing it. Keep the formed text and its palette usable
+      // in QR cards with a clean, matching light/dark paper fallback.
+      canvas.width = 240; ctx = canvas.getContext('2d');
+      scene.background = { draw: context => { context.fillStyle = this.paletteMode === 'dark' ? '#15161d' : PAPER; context.fillRect(0, 0, W, H); } };
+      scene.render(ctx, canvas.width, canvas.height, false);
+    }
+    return canvas;
+  }
   start() {
+    if(this.motion&&this.motion.procedural){
+      if(this.status==='playing')this.status='paused';
+      else {
+        if(this.status==='complete')this.apply(this.text,this.size,this.paragraphSize,false,false,false);
+        this.motion.autoContinue=true;this.status='playing';
+      }
+      this.updateUI();return;
+    }
+
     if (this.status === 'error' || this.status === 'loading') return;
     if (this.status === 'playing') { this.cancelCapture(); this.status = 'paused'; this.updateUI(); return; }
     // 展开 is the opposite of 生花: never replay the intro — resume from the
@@ -649,9 +733,9 @@ class RoseStudio {
     document.querySelectorAll('input[name=palette]').forEach(input=>input.addEventListener('change',()=>this.choosePalette(input.value)));
     $('reset-colors').addEventListener('click',()=>{this.palettes[this.paletteMode]=this.shapeConfig.palettes[this.paletteMode].slice();this.setPalette(this.paletteMode);});
     document.querySelectorAll('input[name=mode]').forEach(input => input.addEventListener('change', e => { this.mode = e.target.value; this.reset(); }));
-    $('speed').addEventListener('click', () => { const speeds=[.5,1,1.5,2,3]; this.speed=speeds[(speeds.indexOf(this.speed)+1)%speeds.length]; $('speed').textContent=`${this.speed}×`; $('speed').setAttribute('aria-label', `播放速度 ${this.speed} 倍，点击切换`); });
+    $('speed').addEventListener('click', () => { const speeds=[.5,1,1.5,2,3]; this.speed=speeds[(speeds.indexOf(this.speed)+1)%speeds.length]; $('speed').textContent=`展开 ${this.speed}×`; $('speed').setAttribute('aria-label', `展开速度 ${this.speed} 倍，点击切换`); });
     const introSpeeds=[.5,1,1.5,2];
-    $('intro-speed').addEventListener('click', () => { this.introSpeed=introSpeeds[(introSpeeds.indexOf(this.introSpeed)+1)%introSpeeds.length]; const action=this.shape==='rose'?'生花':'成形'; $('intro-speed').textContent=`${action} ${this.introSpeed}×`; $('intro-speed').setAttribute('aria-label', `${action}速度 ${this.introSpeed} 倍，点击切换`); });
+    $('intro-speed').addEventListener('click', () => { this.introSpeed=introSpeeds[(introSpeeds.indexOf(this.introSpeed)+1)%introSpeeds.length]; const action=this.shape==='rose'?'生花':this.shape==='firework'?'重放':'成形'; $('intro-speed').textContent=`${action} ${this.introSpeed}×`; $('intro-speed').setAttribute('aria-label', `${action}速度 ${this.introSpeed} 倍，点击切换`); });
     $('play').addEventListener('click', () => this.start()); $('reset').addEventListener('click', () => this.reset());
     this.canvas.addEventListener('keydown', e => {
       if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); this.start(); }
@@ -659,9 +743,9 @@ class RoseStudio {
     });
     this.canvas.addEventListener('pointerdown', e => this.pointerDown(e));
     this.canvas.addEventListener('pointermove', e => this.pointerMove(e));
-    this.canvas.addEventListener('pointerup', () => this.release(true));
-    this.canvas.addEventListener('pointercancel', () => this.release(false));
-    this.canvas.addEventListener('lostpointercapture', () => { if (this.drag) this.release(false); });
+    this.canvas.addEventListener('pointerup', e => this.release(true, e));
+    this.canvas.addEventListener('pointercancel', e => this.release(false, e, true));
+    this.canvas.addEventListener('lostpointercapture', e => this.release(false, e, true));
     document.addEventListener('visibilitychange', () => {
       this.previousFrame = 0; this.accumulator = 0;
       if (document.hidden) { this.release(false); if (this.status === 'playing') { this.status = 'paused'; this.updateUI(); } }
@@ -675,16 +759,32 @@ class RoseStudio {
     this.draw();
   }
   choosePalette(mode) {
+    if (mode === 'light' && this.shapeConfig.resetLightOnPalette) {
+      const count = this.shapeConfig.parts.length;
+      this.palettes.light.splice(0, count, ...this.shapeConfig.palettes.light.slice(0, count));
+    }
     this.setPalette(mode);
     // Only the user's palette action selects paper; paper selection itself
     // calls setPalette, so choosing a texture never starts a feedback loop.
-    if (this.shape === 'cake') this.background.choose(mode === 'light' ? 'IMG_0003.jpg' : 'IMG_0046.JPG');
+    const papers = this.shapeConfig.paletteBackgrounds;
+    if (papers) this.background.choose(papers[mode]);
   }
   pointerPosition(e) { const r = this.canvas.getBoundingClientRect(); return { x: (e.clientX - r.left) * W / r.width, y: (e.clientY - r.top) * H / r.height }; }
   pointerDown(e) {
+    if(this.motion&&this.motion.procedural){
+      if(e.button>0||e.isPrimary===false||this.status==='loading'||this.status==='error')return;
+      if(this.status==='complete')this.apply(this.text,this.size,this.paragraphSize,false,false,false);
+      if(this.motion.burst(this.pointerPosition(e))){
+        this.mode='manual';this.motion.autoContinue=false;
+        document.querySelector('[name=mode][value=manual]').checked=true;
+        this.status='playing';this.updateUI();this.draw();
+      }
+      e.preventDefault();return;
+    }
+
     if(!this.motion||!['idle','playing'].includes(this.status)||this.drag||this.returning||e.button>0||this.motion.phase!=='rope')return;
     const p=this.pointerPosition(e),hit=Math.max(42,25*W/this.canvas.getBoundingClientRect().width);
-    const candidates=this.motion.originals.filter((g,i)=>i===0||g.state==='falling');
+    const candidates=this.motion.originals.filter((g,i)=>this.motion.independent ? g.alpha > .1 : i===0||g.state==='falling');
     const nearest=candidates.reduce((a,g)=>!a||distance(g,p)<distance(a,p)?g:a,null);
     if(!nearest||distance(p,nearest)>hit)return;
     const snapshot=this.motion.save(),node=Math.floor(nearest.node);
@@ -702,14 +802,16 @@ class RoseStudio {
     if(!this.drag)return;const id=this.drag.id;this.drag=null;if(this.motion)this.motion.grip=null;
     if(this.canvas.hasPointerCapture(id))this.canvas.releasePointerCapture(id);this.canvas.dataset.dragging='false';
   }
-  release(allowStart) {
-    if(!this.drag)return;const drag=this.drag;this.cancelCapture();
-    if(allowStart&&(drag.armed||drag.previousStatus==='playing')){this.motion.drop();this.status='playing';}
+  release(allowStart, event, interrupted = false) {
+    const action = releaseAction(this.drag, allowStart, event, interrupted);
+    if(action==='ignore')return;const drag=this.drag;this.cancelCapture();
+    if(action==='continue'){this.motion.drop();this.status='playing';}
     else {this.returning=true;this.returnState={from:this.motion.nodes.map(n=>Object.assign({},n)),target:drag.snapshot,t:0,status:drag.previousStatus==='idle'?'idle':'paused'};this.status='idle';}
     this.updateUI();
   }
   tick(dt) {
     if(!this.motion)return;
+    if(this.motion.procedural)this.motion.palette=this.colors.slice();
     if(this.returning){const r=this.returnState;r.t+=dt;const u=smooth(r.t/.4);this.motion.nodes.forEach((n,i)=>{n.x=mix(r.from[i].x,r.target.nodes[i].x,u);n.y=mix(r.from[i].y,r.target.nodes[i].y,u);});this.motion.updateGlyphs();if(u===1){this.motion.restore(r.target);this.status=r.status;this.returning=false;this.elapsed=this.motion.time;}return;}
     if(this.motion.phase==='intro'){this.motion.step(dt);this.elapsed=this.motion.time;return;}
     if(this.drag||this.status==='playing'){this.motion.step(dt,!this.drag&&this.mode==='auto');this.elapsed=this.motion.time;if(this.motion.phase==='complete')this.status='complete';}
@@ -732,9 +834,9 @@ class RoseStudio {
     if (this.canvas.width !== pixelWidth) { this.canvas.width = pixelWidth; this.canvas.height = Math.round(pixelWidth * H / W); }
     this.draw();
   }
-  drawGlyph(ch, x, y, angle, color, alpha = 1, scale = 1, ctx = this.ctx) {
+  drawGlyph(ch, x, y, angle, color, alpha = 1, scale = 1, ctx = this.ctx, glow = 0) {
     if (!ch.trim()) return;
-    ctx.save(); ctx.translate(x, y); ctx.rotate(angle); ctx.scale(scale, scale); ctx.fillStyle = color; ctx.globalAlpha = alpha; ctx.fillText(ch, 0, 0); ctx.restore();
+    ctx.save(); ctx.translate(x, y); ctx.rotate(angle); ctx.scale(scale, scale); ctx.fillStyle = color; ctx.globalAlpha = alpha; if(glow){ctx.shadowColor=color;ctx.shadowBlur=glow;} ctx.fillText(ch, 0, 0); ctx.restore();
   }
   draw() {
     this.render(this.ctx, this.canvas.width, this.canvas.height, true);
@@ -747,11 +849,20 @@ class RoseStudio {
     if (!this.sources.length) return;
     const paletteKey=this.ink+this.colors.join(',');
     if(this.paletteKey!==paletteKey){this.paletteKey=paletteKey;this.paintColors=this.colors.map(color=>Array.from({length:101},(_,i)=>blendColor(this.ink,color,i/100)));}
-    for(const g of this.motion.originals)this.drawGlyph(g.ch,g.x,g.y,g.angle,this.paintColors[g.color][Math.round(clamp(g.blend)*100)],g.alpha===undefined?1:g.alpha,g.scale,ctx);
+    for(const g of this.motion.originals)this.drawGlyph(g.ch,g.x,g.y,g.angle,this.paintColors[g.color][Math.round(clamp(g.blend)*100)],g.alpha===undefined?1:g.alpha,g.scale,ctx,g.glow||0);
     if (showGuide && this.status === 'idle' && !this.saveGuard && this.motion.phase !== 'intro') this.drawGuide();
   }
   drawGuide() {
-    const ctx = this.ctx, tip = this.motion.originals[0];
+    if(this.motion.procedural){
+      if(this.motion.cursor===0){
+        const ctx=this.ctx;ctx.save();ctx.font=`25px ${FONT}`;ctx.textAlign='center';
+        ctx.fillStyle=this.paletteMode==='dark'?'#efe6d6':'#817466';ctx.globalAlpha=.7;
+        ctx.fillText('点一下，让文字为你绽放',450,600);ctx.restore();
+      }
+      return;
+    }
+
+    const ctx = this.ctx, tip = this.motion.guideGlyph || this.motion.originals[0];
     ctx.save(); ctx.font = `23px ${FONT}`; ctx.textAlign = 'left';
     ctx.strokeStyle = (this.drag&&this.drag.armed) ? this.colors[tip.color] : (this.paletteMode === 'dark' ? '#efe6d6' : '#a39586'); ctx.lineWidth = 1.5;
     ctx.beginPath(); ctx.arc(tip.x, tip.y, 29, 0, Math.PI * 2); ctx.stroke();
@@ -759,12 +870,14 @@ class RoseStudio {
       ctx.beginPath(); ctx.moveTo(tip.x, tip.y + 40); ctx.lineTo(tip.x, tip.y + 94);
       ctx.moveTo(tip.x - 7, tip.y + 86); ctx.lineTo(tip.x, tip.y + 94); ctx.lineTo(tip.x + 7, tip.y + 86); ctx.stroke();
     }
-    const label = this.drag ? this.drag.armed ? '松手，读这封信' : '轻轻牵动文字' : '拖动这里';
+    const label = this.drag ? this.drag.armed ? '松手，读这封信' : this.motion.independent ? '轻轻拨动文字' : '轻轻牵动文字' : this.motion.independent ? '拨动这里' : '拖动这里';
     const p=this.guidePosition(label),x=p.x,y=p.y;
     ctx.fillStyle = this.paletteMode === 'dark' ? '#efe6d6' : '#817466'; ctx.fillText(label, x, y); ctx.restore();
   }
   guidePosition(label = '拖动这里') {
-    const tip = this.motion.originals[0];
+    const tip = this.motion.guideGlyph || this.motion.originals[0];
+    const placed = shapeGuidePosition(this.shapeConfig, tip);
+    if (placed) return placed;
     if (this.shape !== 'cake') return { x: Math.max(35, tip.x - 215), y: clamp(tip.y + 18, 60, H - 40) };
     // Place the cake label in the user's green box, above the tray grip.
     const ctx = this.ctx; ctx.save(); ctx.font = `23px ${FONT}`;
@@ -787,14 +900,15 @@ class RoseStudio {
     $('play-label').textContent = playing ? '暂停' : complete ? '重新展开' : paused ? '继续展开' : '展开';
     $('play-icon').textContent = playing ? 'Ⅱ' : '▷';
     const config=this.shapeConfig;
-    $('bloom').lastElementChild.textContent=this.shape==='rose'?'生花':'成形';
+    $('bloom').lastElementChild.textContent=this.shape==='rose'?'生花':this.shape==='firework'?'重放':'成形';
     $('mode-hint').textContent = this.mode === 'manual' ? '拖动枝叶上端圆圈，文字会跟随手指牵动；松手后沿路径逐步滑出，离开路径的文字自然下落，全部落地后整理成信。' : '点击播放，玫瑰会慢慢展开成一封信。也可直接拖动枝叶上端。';
     this.canvas.dataset.manual = String(['idle','playing'].includes(this.status));
     let stage = this.drag ? this.drag.armed ? '松手，让文字绳自然落下' : '从枝叶上端，轻轻拉开' : complete ? '原来，这些话都藏在花里' : paused ? '已暂停 · 等你继续' : playing ? this.motion.phase==='settle' ? '等每一个字落地，再整理成信' : this.motion.phase==='rope' ? '枝叶先滑出，花朵接着展开' : this.motion.phase==='order' ? '把字句，整理成写给你的信' : '让这封信，慢慢舒展' : '一朵玫瑰，藏着一封信';
-    if(this.shape==='cake'){
-      $('mode-hint').textContent=this.mode==='manual'?`拖动${config.grip}圆圈，文字会跟随手指牵动；松手后沿路径逐步滑出，离开路径的文字自然下落，全部落地后整理成信。`:`点击播放，蛋糕会慢慢展开成一封信。也可直接拖动${config.grip}。`;
-      stage=this.drag?this.drag.armed?'松手，让文字绳自然落下':`从${config.grip}，轻轻拉开`:complete?config.complete:paused?'已暂停 · 等你继续':this.motion&&this.motion.phase==='intro'?'让字句，慢慢组成蛋糕':playing?this.motion.phase==='settle'?'等每一个字落地，再整理成信':this.motion.phase==='rope'?config.unfolding:this.motion.phase==='order'?'把字句，整理成写给你的信':'让这封信，慢慢舒展':config.idle;
+    if(this.shape!=='rose'){
+      $('mode-hint').textContent=this.mode==='manual'?`拖动${config.grip}圆圈，文字会跟随手指牵动；松手后沿路径逐步滑出，离开路径的文字自然下落，全部落地后整理成信。`:`点击播放，${config.name}会慢慢展开成一封信。也可直接拖动${config.grip}。`;
+      stage=this.drag?this.drag.armed?'松手，让文字绳自然落下':`从${config.grip}，轻轻拉开`:complete?config.complete:paused?'已暂停 · 等你继续':this.motion&&this.motion.phase==='intro'?`让字句，慢慢组成${config.name}`:playing?this.motion.phase==='settle'?'等每一个字落地，再整理成信':this.motion.phase==='rope'?config.unfolding:this.motion.phase==='order'?'把字句，整理成写给你的信':'让这封信，慢慢舒展':config.idle;
     }
+    if (this.motion && this.motion.procedural) stage = this.motion.ui(this);
     if (stage !== this.lastUI) { $('stage-label').textContent = stage; this.lastUI = stage; }
 
 
@@ -806,4 +920,17 @@ class RoseStudio {
 const studio = new RoseStudio();
 
 window.studio = studio;
+studio.videoExport = new window.TextVideoExport(studio);
+studio.gifts = new window.GiftShare(studio, {
+  thumbnail: () => studio.giftThumbnail(),
+  autoSave: () => !!(window.xhs && window.xhs.miniTool && typeof window.xhs.miniTool.saveImageToPhotosAlbum === 'function'),
+  save: async dataUrl => {
+    const sdk = window.xhs && window.xhs.miniTool;
+    if (!sdk || typeof sdk.saveImageToPhotosAlbum !== 'function') return '请长按或右键保存上方二维码，并将原图发给收礼人。';
+    let filePath = dataUrl;
+    if (typeof sdk.writeTempFile === 'function') filePath = (await sdk.writeTempFile({ data: dataUrl })).filePath;
+    await sdk.saveImageToPhotosAlbum({ filePath });
+    return '礼物二维码已保存到相册，请将原图发给收礼人。';
+  }
+});
 })();

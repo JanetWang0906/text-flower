@@ -1,0 +1,913 @@
+{
+  "layouts": [
+    {
+      "shape": "rose",
+      "width": 320,
+      "editing": false,
+      "overflow": false,
+      "canvas": {
+        "x": 10,
+        "y": 232,
+        "width": 300,
+        "height": 400,
+        "right": 310,
+        "bottom": 632
+      },
+      "columns": 1
+    },
+    {
+      "shape": "rose",
+      "width": 320,
+      "editing": true,
+      "overflow": false,
+      "canvas": {
+        "x": 10,
+        "y": 232,
+        "width": 300,
+        "height": 400,
+        "right": 310,
+        "bottom": 632
+      },
+      "columns": 1
+    },
+    {
+      "shape": "rose",
+      "width": 360,
+      "editing": false,
+      "overflow": false,
+      "canvas": {
+        "x": 10,
+        "y": 226,
+        "width": 340,
+        "height": 453,
+        "right": 350,
+        "bottom": 679
+      },
+      "columns": 1
+    },
+    {
+      "shape": "rose",
+      "width": 360,
+      "editing": true,
+      "overflow": false,
+      "canvas": {
+        "x": 10,
+        "y": 226,
+        "width": 340,
+        "height": 453,
+        "right": 350,
+        "bottom": 679
+      },
+      "columns": 1
+    },
+    {
+      "shape": "rose",
+      "width": 390,
+      "editing": false,
+      "overflow": false,
+      "canvas": {
+        "x": 14,
+        "y": 230,
+        "width": 362,
+        "height": 483,
+        "right": 376,
+        "bottom": 713
+      },
+      "columns": 1
+    },
+    {
+      "shape": "rose",
+      "width": 390,
+      "editing": true,
+      "overflow": false,
+      "canvas": {
+        "x": 14,
+        "y": 230,
+        "width": 362,
+        "height": 483,
+        "right": 376,
+        "bottom": 713
+      },
+      "columns": 1
+    },
+    {
+      "shape": "rose",
+      "width": 501,
+      "editing": false,
+      "overflow": false,
+      "canvas": {
+        "x": 14,
+        "y": 230,
+        "width": 473,
+        "height": 631,
+        "right": 487,
+        "bottom": 861
+      },
+      "columns": 1
+    },
+    {
+      "shape": "rose",
+      "width": 501,
+      "editing": true,
+      "overflow": false,
+      "canvas": {
+        "x": 14,
+        "y": 230,
+        "width": 473,
+        "height": 631,
+        "right": 487,
+        "bottom": 861
+      },
+      "columns": 1
+    },
+    {
+      "shape": "rose",
+      "width": 768,
+      "editing": false,
+      "overflow": false,
+      "canvas": {
+        "x": 78,
+        "y": 230,
+        "width": 612,
+        "height": 816,
+        "right": 690,
+        "bottom": 1046
+      },
+      "columns": 1
+    },
+    {
+      "shape": "rose",
+      "width": 768,
+      "editing": true,
+      "overflow": false,
+      "canvas": {
+        "x": 78,
+        "y": 230,
+        "width": 612,
+        "height": 816,
+        "right": 690,
+        "bottom": 1046
+      },
+      "columns": 1
+    },
+    {
+      "shape": "rose",
+      "width": 899,
+      "editing": false,
+      "overflow": false,
+      "canvas": {
+        "x": 143.5,
+        "y": 230,
+        "width": 612,
+        "height": 816,
+        "right": 755.5,
+        "bottom": 1046
+      },
+      "columns": 1
+    },
+    {
+      "shape": "rose",
+      "width": 899,
+      "editing": true,
+      "overflow": false,
+      "canvas": {
+        "x": 143.5,
+        "y": 230,
+        "width": 612,
+        "height": 816,
+        "right": 755.5,
+        "bottom": 1046
+      },
+      "columns": 1
+    },
+    {
+      "shape": "rose",
+      "width": 900,
+      "editing": false,
+      "overflow": false,
+      "canvas": {
+        "x": 28,
+        "y": 28,
+        "width": 448,
+        "height": 597.328125,
+        "right": 476,
+        "bottom": 625.328125
+      },
+      "columns": 2
+    },
+    {
+      "shape": "rose",
+      "width": 900,
+      "editing": true,
+      "overflow": false,
+      "canvas": {
+        "x": 28,
+        "y": 28,
+        "width": 448,
+        "height": 597.328125,
+        "right": 476,
+        "bottom": 625.328125
+      },
+      "columns": 2
+    },
+    {
+      "shape": "rose",
+      "width": 1280,
+      "editing": false,
+      "overflow": false,
+      "canvas": {
+        "x": 149,
+        "y": 28,
+        "width": 546,
+        "height": 728,
+        "right": 695,
+        "bottom": 756
+      },
+      "columns": 2
+    },
+    {
+      "shape": "rose",
+      "width": 1280,
+      "editing": true,
+      "overflow": false,
+      "canvas": {
+        "x": 149,
+        "y": 28,
+        "width": 546,
+        "height": 728,
+        "right": 695,
+        "bottom": 756
+      },
+      "columns": 2
+    },
+    {
+      "shape": "rose",
+      "width": 1920,
+      "editing": false,
+      "overflow": false,
+      "canvas": {
+        "x": 469,
+        "y": 28,
+        "width": 546,
+        "height": 728,
+        "right": 1015,
+        "bottom": 756
+      },
+      "columns": 2
+    },
+    {
+      "shape": "rose",
+      "width": 1920,
+      "editing": true,
+      "overflow": false,
+      "canvas": {
+        "x": 469,
+        "y": 28,
+        "width": 546,
+        "height": 728,
+        "right": 1015,
+        "bottom": 756
+      },
+      "columns": 2
+    },
+    {
+      "shape": "cake",
+      "width": 320,
+      "editing": false,
+      "overflow": false,
+      "canvas": {
+        "x": 10,
+        "y": 232,
+        "width": 300,
+        "height": 400,
+        "right": 310,
+        "bottom": 632
+      },
+      "columns": 1
+    },
+    {
+      "shape": "cake",
+      "width": 320,
+      "editing": true,
+      "overflow": false,
+      "canvas": {
+        "x": 10,
+        "y": 232,
+        "width": 300,
+        "height": 400,
+        "right": 310,
+        "bottom": 632
+      },
+      "columns": 1
+    },
+    {
+      "shape": "cake",
+      "width": 360,
+      "editing": false,
+      "overflow": false,
+      "canvas": {
+        "x": 10,
+        "y": 226,
+        "width": 340,
+        "height": 453,
+        "right": 350,
+        "bottom": 679
+      },
+      "columns": 1
+    },
+    {
+      "shape": "cake",
+      "width": 360,
+      "editing": true,
+      "overflow": false,
+      "canvas": {
+        "x": 10,
+        "y": 226,
+        "width": 340,
+        "height": 453,
+        "right": 350,
+        "bottom": 679
+      },
+      "columns": 1
+    },
+    {
+      "shape": "cake",
+      "width": 390,
+      "editing": false,
+      "overflow": false,
+      "canvas": {
+        "x": 14,
+        "y": 230,
+        "width": 362,
+        "height": 483,
+        "right": 376,
+        "bottom": 713
+      },
+      "columns": 1
+    },
+    {
+      "shape": "cake",
+      "width": 390,
+      "editing": true,
+      "overflow": false,
+      "canvas": {
+        "x": 14,
+        "y": 230,
+        "width": 362,
+        "height": 483,
+        "right": 376,
+        "bottom": 713
+      },
+      "columns": 1
+    },
+    {
+      "shape": "cake",
+      "width": 501,
+      "editing": false,
+      "overflow": false,
+      "canvas": {
+        "x": 14,
+        "y": 230,
+        "width": 473,
+        "height": 631,
+        "right": 487,
+        "bottom": 861
+      },
+      "columns": 1
+    },
+    {
+      "shape": "cake",
+      "width": 501,
+      "editing": true,
+      "overflow": false,
+      "canvas": {
+        "x": 14,
+        "y": 230,
+        "width": 473,
+        "height": 631,
+        "right": 487,
+        "bottom": 861
+      },
+      "columns": 1
+    },
+    {
+      "shape": "cake",
+      "width": 768,
+      "editing": false,
+      "overflow": false,
+      "canvas": {
+        "x": 78,
+        "y": 230,
+        "width": 612,
+        "height": 816,
+        "right": 690,
+        "bottom": 1046
+      },
+      "columns": 1
+    },
+    {
+      "shape": "cake",
+      "width": 768,
+      "editing": true,
+      "overflow": false,
+      "canvas": {
+        "x": 78,
+        "y": 230,
+        "width": 612,
+        "height": 816,
+        "right": 690,
+        "bottom": 1046
+      },
+      "columns": 1
+    },
+    {
+      "shape": "cake",
+      "width": 899,
+      "editing": false,
+      "overflow": false,
+      "canvas": {
+        "x": 143.5,
+        "y": 230,
+        "width": 612,
+        "height": 816,
+        "right": 755.5,
+        "bottom": 1046
+      },
+      "columns": 1
+    },
+    {
+      "shape": "cake",
+      "width": 899,
+      "editing": true,
+      "overflow": false,
+      "canvas": {
+        "x": 143.5,
+        "y": 230,
+        "width": 612,
+        "height": 816,
+        "right": 755.5,
+        "bottom": 1046
+      },
+      "columns": 1
+    },
+    {
+      "shape": "cake",
+      "width": 900,
+      "editing": false,
+      "overflow": false,
+      "canvas": {
+        "x": 28,
+        "y": 28,
+        "width": 448,
+        "height": 597.328125,
+        "right": 476,
+        "bottom": 625.328125
+      },
+      "columns": 2
+    },
+    {
+      "shape": "cake",
+      "width": 900,
+      "editing": true,
+      "overflow": false,
+      "canvas": {
+        "x": 28,
+        "y": 28,
+        "width": 448,
+        "height": 597.328125,
+        "right": 476,
+        "bottom": 625.328125
+      },
+      "columns": 2
+    },
+    {
+      "shape": "cake",
+      "width": 1280,
+      "editing": false,
+      "overflow": false,
+      "canvas": {
+        "x": 149,
+        "y": 28,
+        "width": 546,
+        "height": 728,
+        "right": 695,
+        "bottom": 756
+      },
+      "columns": 2
+    },
+    {
+      "shape": "cake",
+      "width": 1280,
+      "editing": true,
+      "overflow": false,
+      "canvas": {
+        "x": 149,
+        "y": 28,
+        "width": 546,
+        "height": 728,
+        "right": 695,
+        "bottom": 756
+      },
+      "columns": 2
+    },
+    {
+      "shape": "cake",
+      "width": 1920,
+      "editing": false,
+      "overflow": false,
+      "canvas": {
+        "x": 469,
+        "y": 28,
+        "width": 546,
+        "height": 728,
+        "right": 1015,
+        "bottom": 756
+      },
+      "columns": 2
+    },
+    {
+      "shape": "cake",
+      "width": 1920,
+      "editing": true,
+      "overflow": false,
+      "canvas": {
+        "x": 469,
+        "y": 28,
+        "width": 546,
+        "height": 728,
+        "right": 1015,
+        "bottom": 756
+      },
+      "columns": 2
+    }
+  ],
+  "mobileStructure": [
+    {
+      "width": 390,
+      "web": {
+        ".shape-toolbar": {
+          "x": 14,
+          "y": 56,
+          "width": 362,
+          "height": 104
+        },
+        ".paper-wrap": {
+          "x": 14,
+          "y": 174,
+          "width": 362,
+          "height": 482.65625
+        },
+        ".stage-footer": {
+          "x": 14,
+          "y": 668.65625,
+          "width": 362,
+          "height": 16
+        },
+        ".actions": {
+          "x": 14,
+          "y": 696.65625,
+          "width": 362,
+          "height": 96
+        },
+        ".mode-setting": {
+          "x": 224.921875,
+          "y": 748.65625,
+          "width": 151.078125,
+          "height": 44
+        },
+        "#mode-hint": {
+          "x": 14,
+          "y": 802.65625,
+          "width": 362,
+          "height": 30
+        },
+        ".background-setting": {
+          "x": 14,
+          "y": 856.65625,
+          "width": 362,
+          "height": 153
+        },
+        ".font-setting": {
+          "x": 14,
+          "y": 1015.65625,
+          "width": 175,
+          "height": 64
+        },
+        ".paragraph-setting": {
+          "x": 201,
+          "y": 1015.65625,
+          "width": 175,
+          "height": 64
+        }
+      },
+      "minitool": {
+        ".shape-toolbar": {
+          "x": 14,
+          "y": 52,
+          "width": 362,
+          "height": 104
+        },
+        ".paper-wrap": {
+          "x": 14,
+          "y": 170,
+          "width": 362,
+          "height": 483
+        },
+        ".stage-footer": {
+          "x": 14,
+          "y": 665,
+          "width": 362,
+          "height": 16
+        },
+        ".actions": {
+          "x": 14,
+          "y": 693,
+          "width": 362,
+          "height": 96
+        },
+        ".mode-setting": {
+          "x": 224.921875,
+          "y": 745,
+          "width": 151.078125,
+          "height": 44
+        },
+        "#mode-hint": {
+          "x": 14,
+          "y": 799,
+          "width": 362,
+          "height": 30
+        },
+        ".background-setting": {
+          "x": 14,
+          "y": 853,
+          "width": 362,
+          "height": 153
+        },
+        ".font-setting": {
+          "x": 14,
+          "y": 1012,
+          "width": 175,
+          "height": 64
+        },
+        ".paragraph-setting": {
+          "x": 201,
+          "y": 1012,
+          "width": 175,
+          "height": 64
+        }
+      }
+    }
+  ],
+  "exports": [
+    {
+      "shape": "rose",
+      "phase": "intro",
+      "width": 1800,
+      "height": 2400,
+      "unchanged": true,
+      "exactDownloadedBytes": true
+    },
+    {
+      "shape": "rose",
+      "phase": "idle",
+      "width": 1800,
+      "height": 2400,
+      "unchanged": true,
+      "exactDownloadedBytes": true
+    },
+    {
+      "shape": "rose",
+      "phase": "paused",
+      "width": 1800,
+      "height": 2400,
+      "unchanged": true,
+      "exactDownloadedBytes": true
+    },
+    {
+      "shape": "rose",
+      "phase": "complete",
+      "width": 1800,
+      "height": 2400,
+      "unchanged": true,
+      "exactDownloadedBytes": true
+    },
+    {
+      "shape": "cake",
+      "phase": "intro",
+      "width": 1800,
+      "height": 2400,
+      "unchanged": true,
+      "exactDownloadedBytes": true
+    },
+    {
+      "shape": "cake",
+      "phase": "idle",
+      "width": 1800,
+      "height": 2400,
+      "unchanged": true,
+      "exactDownloadedBytes": true
+    },
+    {
+      "shape": "cake",
+      "phase": "paused",
+      "width": 1800,
+      "height": 2400,
+      "unchanged": true,
+      "exactDownloadedBytes": true
+    },
+    {
+      "shape": "cake",
+      "phase": "complete",
+      "width": 1800,
+      "height": 2400,
+      "unchanged": true,
+      "exactDownloadedBytes": true
+    }
+  ],
+  "checks": [
+    "rose canvas fits 900×640",
+    "rose canvas stays visible while editing 900×640",
+    "rose canvas fits 1280×640",
+    "rose canvas stays visible while editing 1280×640",
+    "rose canvas fits 1920×640",
+    "rose canvas stays visible while editing 1920×640",
+    "cake canvas fits 900×640",
+    "cake canvas stays visible while editing 900×640",
+    "cake canvas fits 1280×640",
+    "cake canvas stays visible while editing 1280×640",
+    "cake canvas fits 1920×640",
+    "cake canvas stays visible while editing 1920×640",
+    "web covers every mini-tool control",
+    "web retains auto-fit and adds explicit download",
+    "web downloads video and mini-tool keeps publishing",
+    "light papers reset four cake colors, preserve ink/motion, and shape restoration retains custom colors",
+    "guide avoids text at sizes 12/20/32",
+    "invalid drafts show notice and inline error without replacing artwork; valid edit recovers",
+    "automatic font fitting remains usable",
+    "upload crop, pointer/keyboard adjustment, cancel, invalid image and shape memory preserve the chosen paper",
+    "render failure restores save button and reports error",
+    "download failure allows retry and keeps the preview",
+    "HD dimensions are independent of screen size and DPR"
+  ],
+  "errors": [],
+  "guides": [
+    {
+      "size": 12,
+      "label": "拖动这里",
+      "position": {
+        "x": 55,
+        "y": 740
+      },
+      "overlaps": 0
+    },
+    {
+      "size": 12,
+      "label": "轻轻牵动文字",
+      "position": {
+        "x": 55,
+        "y": 516
+      },
+      "overlaps": 0
+    },
+    {
+      "size": 12,
+      "label": "松手，读这封信",
+      "position": {
+        "x": 55,
+        "y": 488
+      },
+      "overlaps": 0
+    },
+    {
+      "size": 20,
+      "label": "拖动这里",
+      "position": {
+        "x": 55,
+        "y": 740
+      },
+      "overlaps": 0
+    },
+    {
+      "size": 20,
+      "label": "轻轻牵动文字",
+      "position": {
+        "x": 55,
+        "y": 516
+      },
+      "overlaps": 0
+    },
+    {
+      "size": 20,
+      "label": "松手，读这封信",
+      "position": {
+        "x": 55,
+        "y": 488
+      },
+      "overlaps": 0
+    },
+    {
+      "size": 32,
+      "label": "拖动这里",
+      "position": {
+        "x": 55,
+        "y": 740
+      },
+      "overlaps": 0
+    },
+    {
+      "size": 32,
+      "label": "轻轻牵动文字",
+      "position": {
+        "x": 55,
+        "y": 488
+      },
+      "overlaps": 0
+    },
+    {
+      "size": 32,
+      "label": "松手，读这封信",
+      "position": {
+        "x": 55,
+        "y": 488
+      },
+      "overlaps": 0
+    }
+  ],
+  "protected": {
+    "files": 69,
+    "unchanged": true,
+    "comparedToPreEdit": false,
+    "sha256": {
+      "backups/.DS_Store": "0a08325ce08fb7fe3b6bb404c06b3ea36955a7de1eb786f2db43f7c5d2b3191f",
+      "backups/minitool-before-hd-guide-20261007/README.md": "68a9575dbda05eda1893381695d058037f06042960ed3fbcbf96a9f3ff158c27",
+      "backups/minitool-before-hd-guide-20261007/app.js": "d56887f9a36b2a541eee2bb0c117f0635244ae602091b79fe69c5dd32bd48c59",
+      "backups/minitool-before-hd-guide-20261007/index.html": "e0af169a5fe0a6a2deecdbd1a0d3ec1105597fcad57ca2beadd61ef3b4d15316",
+      "backups/minitool-before-hd-guide-20261007/style.css": "488f9dd9bcace4a12ed1df631c7e2ee2151c63f530e9e50a73f44c106c86bb37",
+      "backups/minitool-before-isolation-20261006/IMG_0003.jpg": "0784d9903b009e4dff2c0dae125f772bb0d3ef55ba48717da17de262978f2d0c",
+      "backups/minitool-before-isolation-20261006/IMG_0006.jpg": "5a49aa51b6d2c44c68a3236f19013b518157d7b7000984ea497071e71bb3b535",
+      "backups/minitool-before-isolation-20261006/IMG_0045.JPG": "343e4aee5a5b1ca29c85c478616fc254232b665866f869278300ed31555a6351",
+      "backups/minitool-before-isolation-20261006/IMG_0046.JPG": "ad09e0e12ada8831d30c046c4823e8b5be0f3e6c33deed3ccfe6026d26c392a3",
+      "backups/minitool-before-isolation-20261006/app.js": "7ee1c4fd8c0eda11dc4244a932144ce9bc7fc08ba5395756f44d7f9aac626c58",
+      "backups/minitool-before-isolation-20261006/index.html": "551614b8f27e6d8fff989eb6833d7b3d135312f60590fd672151eaf8248968fa",
+      "backups/minitool-before-isolation-20261006/style.css": "9d3de443feea3abc87b8fa19b68d70ffd217e849b157575adad74b297fedbece",
+      "backups/minitool-before-isolation-20261006/toolbar.css": "6074491a94fc32d464f3a5f4c38bf42a3840d46f96bb5256c8b23d5b1a551c40",
+      "backups/minitool-before-light-palette-20261009/app.js": "037e2aa70422c105108bb8c3ece68e06725d31dda65b675693394c62440f002f",
+      "backups/minitool-before-light-palette-20261009/index.html": "0e9b97face33e96139310c914daa1f944ca7fb0a848496c1208c2fe39db16bb4",
+      "backups/minitool-before-light-palette-20261009/style.css": "fa86f7aefa68c00037776d861069db884513f77fa89d4158539259abc5e1d1b0",
+      "backups/minitool-before-light-palette-20261009/zilihuajian-minitool-2.0.zip": "a5505e28194a8fb8e3589c6c2c941f0c556b2b6278b822b5738384d603ac860a",
+      "backups/minitool-before-toolbar-package-20261007/app.js": "037e2aa70422c105108bb8c3ece68e06725d31dda65b675693394c62440f002f",
+      "backups/minitool-before-toolbar-package-20261007/index.html": "443a8a5286d7530959351d4f6ac9447b66c294e2b3e14382f16e437c23f7b5bc",
+      "backups/minitool-before-toolbar-package-20261007/style.css": "8886367bb94c53933745e21e9191fa6baa8f76b841a4957320fc4a1509676316",
+      "backups/minitool-before-toolbar-package-20261007/zilihuajian-minitool-2.0.zip": "c93ab06db3e20736f143ece7bbb57d1379596df14a9fad6412b6165fac9528a0",
+      "backups/minitool-original-20260928/IMG_0003.jpg": "0784d9903b009e4dff2c0dae125f772bb0d3ef55ba48717da17de262978f2d0c",
+      "backups/minitool-original-20260928/IMG_0006.jpg": "5a49aa51b6d2c44c68a3236f19013b518157d7b7000984ea497071e71bb3b535",
+      "backups/minitool-original-20260928/IMG_0045.JPG": "343e4aee5a5b1ca29c85c478616fc254232b665866f869278300ed31555a6351",
+      "backups/minitool-original-20260928/IMG_0046.JPG": "ad09e0e12ada8831d30c046c4823e8b5be0f3e6c33deed3ccfe6026d26c392a3",
+      "backups/minitool-original-20260928/app.js": "e47548a36afc89b0e7e311473af7c9b7e10303e153cfe8380214fcff8a68f41a",
+      "backups/minitool-original-20260928/index.html": "d53df690576eb48de463584f7eb4856ec877218b012f4c43dc151d5162533ef3",
+      "backups/minitool-original-20260928/style.css": "96627a0e9dbf40885bcff831f8d74845ee1187f737abaab1fc63130aacbab4c0",
+      "backups/minitool-original-sha256.json": "3eb1bf1bc1bcc2ac6e299910a83fc6bf2dfeb74dbd2a8a8a9e219c88e7f81365",
+      "backups/web-before-desktop-layout-20261009/index.html": "6391d52f149561f4b402c4de56600d89c656213023804e5024eb97a0a2ec98be",
+      "backups/web-before-desktop-layout-20261009/style.css": "f55634090debc2a40f99c12a0d684fdcd20b832c8437733d3e0033ca64530daa",
+      "backups/web-before-desktop-layout-20261009/toolbar.css": "6074491a94fc32d464f3a5f4c38bf42a3840d46f96bb5256c8b23d5b1a551c40",
+      "minitool-src/README.md": "7832e28e8be59a1a397da7d35ac7d339c2e183e9db69edab63dc8005535319a5",
+      "minitool-src/app.js": "b623f779095893e026d32ef6d9a7327fb387aeb882407556eb736031a397a9df",
+      "minitool-src/gift-codec.js": "28e8fca2c10ff655593a1c4a89e963ae6dee51e8db19f3c491fa517657e2df75",
+      "minitool-src/gift-share.css": "83d0392bf27d4f96bf1afeb13ca14471199f9bf2affc1bf5ba26104e6823b3b9",
+      "minitool-src/gift-share.js": "034294ab1db8905db7bd6b1ac081d053129d53d122493e2fbc71955a6841db13",
+      "minitool-src/index.html": "7d4a7b8bea9288f655cc8fe1cfbfeb65571dbda43ee7286c6a83517c3c661604",
+      "minitool-src/style.css": "1619c174b6fcb9441050591bd82862dc13fc3b2724a125c902edf70fb139207d",
+      "minitool-src/vendor/README.md": "15e21460e53aff3197066dad9c4ed15f12fd39faea4b6539a9bf686ee7d164c9",
+      "minitool-src/vendor/jsQR-LICENSE.txt": "c6596eb7be8581c18be736c846fb9173b69eccf6ef94c5135893ec56bd92ba08",
+      "minitool-src/vendor/jsQR.js": "bc40c8a15196236b2314db0856f72ca0b49980cd5413b8c852a7349f5fee0859",
+      "minitool-src/vendor/licenses.json": "a5f36495996c4fad497ca2d81284d2ebedd8f721eded7ee0f5557fb3518c9360",
+      "minitool-src/vendor/qrcode-LICENSE.txt": "3a850fa5f08101db6f40676c2786e10bd2cd5fff7b12ffdf1e0c434d4e49d90c",
+      "minitool-src/vendor/qrcode.js": "18ae399f81182bc9de916e9c77b195df20cc58d6f2d55a62b085a299f1bf1780",
+      "minitool-src/vendor/versions.json": "2739adfc00fc794faeac6d9bee175c46130f6728645c70ed64f5b11997f7036a",
+      "minitool-src/video-export.js": "8dd58fdbc2d086bef1eeaa139bc5c5c13614e3dcb1782c2ca69369de972e56ac",
+      "minitool/IMG_0003.jpg": "0784d9903b009e4dff2c0dae125f772bb0d3ef55ba48717da17de262978f2d0c",
+      "minitool/IMG_0006.jpg": "5a49aa51b6d2c44c68a3236f19013b518157d7b7000984ea497071e71bb3b535",
+      "minitool/IMG_0045.JPG": "343e4aee5a5b1ca29c85c478616fc254232b665866f869278300ed31555a6351",
+      "minitool/IMG_0046.JPG": "ad09e0e12ada8831d30c046c4823e8b5be0f3e6c33deed3ccfe6026d26c392a3",
+      "minitool/app.js": "b623f779095893e026d32ef6d9a7327fb387aeb882407556eb736031a397a9df",
+      "minitool/gift-codec.js": "28e8fca2c10ff655593a1c4a89e963ae6dee51e8db19f3c491fa517657e2df75",
+      "minitool/gift-share.css": "83d0392bf27d4f96bf1afeb13ca14471199f9bf2affc1bf5ba26104e6823b3b9",
+      "minitool/gift-share.js": "034294ab1db8905db7bd6b1ac081d053129d53d122493e2fbc71955a6841db13",
+      "minitool/index.html": "e4eeccca7a95800febc330171f34dbf6f799abc73b6dd32861080edcd8b1c51d",
+      "minitool/shared/comet-fireworks.js": "f58f46e991c6bdaae433191c2632fb316970909506112b641b50ba435ba55c37",
+      "minitool/shared/comet-trails.js": "89d0d6585af68bfc41e57c5cdbfefbf4e336652c4530c1d82fa6a375d0cfc05a",
+      "minitool/shared/firework-motion.js": "905f2633328e0c613b41a6030a34b2814bc9c4619ebc4afc437b22c2c8166f63",
+      "minitool/shared/interaction.js": "8f7088049c1b652fe75c8d67c0d816814327cdd35fb2db3ca5e10d9620928116",
+      "minitool/shared/shapes.js": "ae912e1ef2cb3063ffd1353bc87b140cfdf78ea5f0fd1812ad68bf2f93f6a4c9",
+      "minitool/style.css": "1619c174b6fcb9441050591bd82862dc13fc3b2724a125c902edf70fb139207d",
+      "minitool/vendor/jsQR.js": "bc40c8a15196236b2314db0856f72ca0b49980cd5413b8c852a7349f5fee0859",
+      "minitool/vendor/licenses.json": "a5f36495996c4fad497ca2d81284d2ebedd8f721eded7ee0f5557fb3518c9360",
+      "minitool/vendor/qrcode.js": "18ae399f81182bc9de916e9c77b195df20cc58d6f2d55a62b085a299f1bf1780",
+      "minitool/vendor/versions.json": "2739adfc00fc794faeac6d9bee175c46130f6728645c70ed64f5b11997f7036a",
+      "minitool/video-export.js": "8dd58fdbc2d086bef1eeaa139bc5c5c13614e3dcb1782c2ca69369de972e56ac",
+      "zilihuajian-minitool-2.0.zip": "bd7fc2063d0f2b16549277f74e9f870bb0dd38b1604ffa8ca2591528d13c1f69",
+      "zilihuajian-minitool.zip": "1fb465c318f64237c6b680a331e9104c59aebc3bc2efadf94ed8d83022147c0e"
+    }
+  },
+  "realDevice": false
+}

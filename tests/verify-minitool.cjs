@@ -1,12 +1,13 @@
+const roseBase = process.env.ROSE_URL || 'http://127.0.0.1:8765/';
 const assert=require('node:assert/strict');
 const {chromium}=require('playwright');
 (async()=>{const browser=await chromium.launch({executablePath:'/Applications/Google Chrome.app/Contents/MacOS/Google Chrome',headless:true});
 try{
  const p=await browser.newPage({viewport:{width:390,height:844}});await p.clock.install();
  const errors=[];p.on('pageerror',e=>errors.push(e.message));
- await p.goto('http://127.0.0.1:8765/minitool/index.html');
+ await p.goto(new URL('minitool/index.html', roseBase).href);
  await p.waitForFunction(()=>window.studio&&window.studio.ready);
- await p.evaluate(()=>studio.ready);
+ await p.evaluate(async()=>{await studio.ready;document.getElementById('gift-entry-dialog').close();});
  const st=await p.evaluate(()=>({mode:studio.paletteMode,paths:studio.paths.length,saveHidden:document.getElementById('save-image').hidden,bg:studio.background.current.name}));
  console.log('studio state',JSON.stringify(st));
  assert.ok(st.paths===2,'inline SVG paths loaded');
